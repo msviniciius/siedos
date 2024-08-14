@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20240814104956) do
+ActiveRecord::Schema.define(version: 20240814201757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20240814104956) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employee_complements_on_employee_id"
+    t.index ["job_role_id", "workspace_id"], name: "index_unique_job_role_workspace", unique: true
     t.index ["job_role_id"], name: "index_employee_complements_on_job_role_id"
     t.index ["workspace_id"], name: "index_employee_complements_on_workspace_id"
   end
