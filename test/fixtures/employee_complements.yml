@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  employee: one
+  marital_status: MyString
+  gender: MyString
+  work_location: MyString
+  position: MyString
+
+two:
+  employee: two
+  marital_status: MyString
+  gender: MyString
+  work_location: MyString
+  position: MyString

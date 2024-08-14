@@ -1,0 +1,9 @@
+pt-BR:
+  enums:
+    gender:
+      male: "Homem"
+      female: "Mulher"
+    marital_status:
+      single: "Solteiro(a)"
+      married: "Casado(a)"
+      divorced: "Divorciado(a)"

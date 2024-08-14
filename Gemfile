@@ -8,6 +8,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+ruby "2.5.9"
+
 # core gems
 gem 'devise'
 gem 'json'
@@ -22,6 +24,8 @@ gem 'will_paginate', '~> 3.1.0'
 
 # database
 gem 'pg'
+
+gem 'rack-cors', require: 'rack/cors'
 
 # frontend
 gem 'bootstrap-sass'
@@ -41,6 +45,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rubocop'
   gem 'reek'
+  gem 'dotenv-rails'
 end
 
 group :development do

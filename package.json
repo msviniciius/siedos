@@ -1,5 +1,8 @@
 {
   "name": "rh_challenge",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "jquery": "^3.7.1"
+  }
 }
