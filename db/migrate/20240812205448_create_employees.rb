@@ -6,8 +6,8 @@ class CreateEmployees < ActiveRecord::Migration[5.1]
       t.date :birthday
       t.string :municipality
       t.string :state
-      t.string :gender
-      t.string :marital_status
+      t.references :gender, null: true, foreign_key: true
+      t.references :marital_state, null: true, foreign_key: true
 
       t.timestamps
     end

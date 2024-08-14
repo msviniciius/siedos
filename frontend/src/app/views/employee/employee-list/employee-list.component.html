@@ -1,0 +1,80 @@
+
+<div class="card card-outline card-danger">
+    <div class="card-header with-border">
+      <div class="page-header-title">
+        <h5 class="m-b-10">
+          <strong>
+            <i class="fa fa-solid fa-bars"></i>
+            Listagem
+          </strong>
+        </h5>
+        <div class="text-muted text-xs">
+          <h6 class="m-b-10 listagem">
+            Exibindo total de {{ employees?.count }} registros.
+          </h6>
+        </div>
+      </div>
+      <div class="search-container">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          type="search"
+          class="form-control"
+          placeholder="Pesquise por nome ou matricula"
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+        />
+      </div>
+    </div>
+  
+    <div class="card-body">
+      <div class="col-12 text-end">
+        <button type="button" class="btn btn-secondary" (click)="createEmployee()">
+          Novo funcionário
+        </button>
+      </div>
+    </div>
+  
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th data-align='center'>#</th>
+                <th data-align='center'>Name</th>
+                <th data-align='center'>Matrícula</th>
+                <th data-align='center'>Data de nascimento</th>
+                <th data-align='center'>Sexo</th>
+                <th data-align='center'>Lotação</th>
+                <th data-align='center'>Cargo</th>
+                <th class="text-right">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let employee of employees?.items; let i = index">
+                <tr>
+                  <td>{{ employee.id }}</td>
+                  <td>{{ employee.name }}</td>
+                  <td>{{ employee.registration }}</td>
+                  <td>{{ employee.birthday | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ employee.gender.title }}</td>
+                  <td>{{ employee.workspace?.title }}</td>
+                  <td>{{ employee.job_role?.title }}</td>
+                  <td class="text-right">
+                    <div class="btn-group dropend">
+                      <i type="button" class="fa-solid fa-gear" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                      <div class="dropdown-menu">
+                        <button class="dropdown-item" *ngFor="let action of actions" (click)="action.action(employee.id)">
+                          <i class="{{ action.icon }}"></i> {{ action.label }}
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

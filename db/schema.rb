@@ -10,18 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20240812210539) do
+ActiveRecord::Schema.define(version: 20240814104956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "employee_complements", force: :cascade do |t|
     t.bigint "employee_id"
-    t.string "work_location"
-    t.string "position"
+    t.bigint "job_role_id"
+    t.bigint "workspace_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employee_complements_on_employee_id"
+    t.index ["job_role_id"], name: "index_employee_complements_on_job_role_id"
+    t.index ["workspace_id"], name: "index_employee_complements_on_workspace_id"
   end
 
   create_table "employees", force: :cascade do |t|
@@ -30,13 +32,27 @@ ActiveRecord::Schema.define(version: 20240812210539) do
     t.date "birthday"
     t.string "municipality"
     t.string "state"
-    t.string "gender"
-    t.string "marital_status"
+    t.bigint "gender_id"
+    t.bigint "marital_state_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gender_id"], name: "index_employees_on_gender_id"
+    t.index ["marital_state_id"], name: "index_employees_on_marital_state_id"
+  end
+
+  create_table "genders", force: :cascade do |t|
+    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "job_roles", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "marital_states", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -48,5 +64,8 @@ ActiveRecord::Schema.define(version: 20240812210539) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "employee_complements", "employees"
+  add_foreign_key "employee_complements", "job_roles"
+  add_foreign_key "employee_complements", "workspaces"
+  add_foreign_key "employees", "genders"
+  add_foreign_key "employees", "marital_states"
 end

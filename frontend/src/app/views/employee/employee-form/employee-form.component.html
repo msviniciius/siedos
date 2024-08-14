@@ -1,0 +1,89 @@
+
+<div class="card card-outline card-danger">
+  <div class="card-header with-border">
+    <div class="page-header-title">
+      <h5 class="m-b-10">
+        <strong>
+          <i class="ti ti-plus"></i>
+          Criar um funcionário
+        </strong>
+      </h5>
+    </div>
+    <div class="search-container">
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="col-12">
+      <form [formGroup]="employeeForm" class="requires-validation row g-3" (ngSubmit)="onSave()">
+        <div class="col-md-6">
+          <label for="name" class="form-label">Nome*</label>
+          <input type="text" class="form-control" formControlName="name" required>
+        </div>
+        <div class="col-md-2">
+          <label for="registration" class="form-label">Cod. Matricula*</label>
+          <input type="text" id="registration" formControlName="registration" class="form-control" readonly />
+        </div>
+        <div class="col-4">
+          <label for="birthday" class="form-label">Data de aniversário</label>
+          <input type="date" class="form-control" formControlName="birthday">
+        </div>
+
+        <div class="col-4">
+          <label for="municipality" class="form-label">Município de nascimento</label>
+          <input type="text" class="form-control" formControlName="municipality">
+        </div>
+        <div class="col-4">
+          <label for="state" class="form-label">Estado de nascimento</label>
+          <input type="text" class="form-control" formControlName="state">
+        </div>
+        
+        <div class="col-4">
+          <label for="marital_status" class="form-label">Estado civil</label>
+          <select class="form-select" formControlName="marital_state_id" required>
+            <option *ngFor="let state of states" [value]="state.id">{{ state.name }}</option>
+          </select>
+        </div>
+        <div class="col-3">
+          <label for="gender" class="form-label">Gênero</label>
+          <select class="form-select" formControlName="gender_id" required>
+            <option *ngFor="let gender of genders" [value]="gender.id">{{ gender.name }}</option>
+          </select>
+        </div>
+
+        <div class="col-4">
+          <label for="work_location" class="form-label">Locação*</label>
+          <select class="form-select" formControlName="workspace_id" required>
+            <option *ngFor="let work of workLocations" [value]="work.id">{{ work.name }}</option>
+          </select>
+        </div>
+        <div class="col-5">
+          <label for="position" class="form-label">Cargo*</label>
+          <select class="form-select" formControlName="job_role_id" required>
+            <option *ngFor="let role of jobRoles" [value]="role.id">{{ role.name }}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <br>
+    <div class="col-12 text-end">
+      <button
+        type="button"
+        class="btn btn-light borderButton" 
+        (click)="cancelEmployee()">
+        Cancelar
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="employeeId ? onUpdate() :onSave()"
+        [disabled]="!employeeForm.valid">
+        {{ employeeId ? 'Atualizar Funcionário' : 'Criar Funcionário' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+

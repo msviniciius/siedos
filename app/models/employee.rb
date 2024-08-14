@@ -1,15 +1,12 @@
 class Employee < ApplicationRecord
   has_one :employee_complement, dependent: :destroy
-  accepts_nested_attributes_for :employee_complement
+  belongs_to :gender
+  belongs_to :marital_state
 
   validates :name, presence: true
   validates :registration, presence: true, uniqueness: true
   validates :birthday, presence: false
   validates :municipality, presence: false
-  validates :state, presence: false
-  validates :marital_status, presence: false
-  validates :gender, presence: false
-
-  enum gender: { male: 'Homem', female: 'Mulher' }
-  enum marital_status: { single: 'Solteiro', married: 'Casado', divorced: 'Divorciado' }
+  validates :marital_state_id, required: false, presence: false
+  validates :gender_id, required: false, presence: false
 end

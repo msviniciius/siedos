@@ -14,20 +14,8 @@ module V1
           birthday: @object.birthday,
           municipality: @object.municipality,
           gender: @object.gender,
-          employee_complement: employee_complement
-        }
-      end
-
-      private
-
-      def employee_complement
-        return unless @object.employee_complement
-        employee_complement = @object.employee_complement
-
-        {
-          id: employee_complement.id,
-          work_location: employee_complement.work_location,
-          position: employee_complement.position
+          job_role: @object.employee_complement.job_role,
+          workspace: @object.employee_complement.workspace
         }
       end
     end

@@ -35,6 +35,7 @@ module V1
 
         render json: response, status: 200
       rescue => e
+        debugger
         CustomLog.error(e)
         render json: { error: e.message }, status: :bad_request
       end

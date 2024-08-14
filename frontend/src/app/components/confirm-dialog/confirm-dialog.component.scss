@@ -1,0 +1,38 @@
+/* Estilo para o diálogo de confirmação */
+
+/* Estilo geral do diálogo */
+.p-confirm-dialog {
+    /* Adicione qualquer estilo geral que você queira aplicar ao diálogo aqui */
+  }
+  
+  /* Estilo para o rodapé do diálogo */
+  .p-confirm-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+  }
+  
+  /* Estilo para espaçamento entre os botões de aceitar e rejeitar */
+  .p-confirm-dialog-footer .p-button {
+    margin-right: 10px; /* Espaçamento entre os botões */
+  }
+  
+  /* Remover a margem direita do último botão */
+  .p-confirm-dialog-footer .p-button:last-child {
+    margin-right: 0;
+  }
+  
+  /* Estilos personalizados para o botão de aceitação */
+  .p-confirm-dialog-footer .p-confirm-dialog-accept {
+    background-color: #007bff; /* Cor de fundo do botão de aceitação */
+    border-color: #007bff;   /* Cor da borda do botão de aceitação */
+    color: #fff;             /* Cor do texto do botão de aceitação */
+  }
+  
+  /* Estilos personalizados para o botão de rejeição */
+  .p-confirm-dialog-footer .p-confirm-dialog-reject {
+    border-color: #6c757d; /* Cor da borda do botão de rejeição */
+    color: #6c757d;        /* Cor do texto do botão de rejeição */
+    background-color: transparent; /* Fundo transparente para o botão de rejeição */
+  }
+  

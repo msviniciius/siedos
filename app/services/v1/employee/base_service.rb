@@ -5,23 +5,23 @@ module V1
 
       # create required path
       def create(params)
+        params
         employee = ::Employee.create(
           name: params[:name],
           registration: params[:registration],
           birthday: params[:birthday],
           municipality: params[:municipality],
           state: params[:state],
-          marital_status: params[:marital_status],
-          gender: params[:gender]
+          gender_id: params[:gender_id],
+          marital_state_id: params[:marital_state_id]
         )
 
-        # Cria o EmployeeComplement associado ao Empoyee
         ::EmployeeComplement.create(
           employee_id: employee.id, 
-          work_location: params[:work_location],
-          position: params[:position]
+          workspace_id: params[:workspace_id],
+          job_role_id: params[:job_role_id]
         )
-
+        
         employee
       end
 
@@ -34,13 +34,13 @@ module V1
           birthday: params[:birthday],
           municipality: params[:municipality],
           state: params[:state],
-          marital_status: params[:marital_status],
-          gender: params[:gender]
+          gender_id: params[:gender_id],
+          marital_state_id: params[:marital_state_id]
         )
 
         employee.employee_complement.update!(
-          work_location: params[:work_location],
-          position: params[:position]
+          workspace_id: params[:workspace_id],
+          job_role_id: params[:job_role_id]
         )
 
         employee

@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     delete '/funcionarios/:id', to: 'v1/employee/base#destroy'
     put '/funcionarios/:id', to: 'v1/employee/base#update'
 
-    get '/job-roles',    to: 'v1/job_role/base#read'
+    get '/job-roles',    to: 'v1/basic_info/base#job_roles'
+    get '/work-location',    to: 'v1/basic_info/base#work_location'
+    get '/genders',    to: 'v1/basic_info/base#genders'
+    get '/states',    to: 'v1/basic_info/base#states'
   end
 end
