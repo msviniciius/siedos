@@ -8,6 +8,8 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -53,6 +55,7 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
     HttpClientModule,
     NgbModule,
     FontAwesomeModule,
+    NgSelectModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right' // Define a posição globalmente
     }),

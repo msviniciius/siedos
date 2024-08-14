@@ -25,6 +25,7 @@
     "@fortawesome/angular-fontawesome": "^0.15.0",
     "@fortawesome/fontawesome-free": "^6.6.0",
     "@ng-bootstrap/ng-bootstrap": "^17.0.0",
+    "@ng-select/ng-select": "^13.7.0",
     "@popperjs/core": "^2.11.8",
     "apexcharts": "^3.49.2",
     "bootstrap": "^5.3.3",

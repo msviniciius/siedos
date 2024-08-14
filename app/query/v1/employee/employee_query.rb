@@ -4,13 +4,40 @@ module V1
         def initialize(params)
           @where = []
           @params = {}
+          @joins = []
           @order = {id: :desc}
           @limit = 200
-
+          
+          gender_identity(params[:gender_identity]) if params[:gender_identity].present?
+          job_roles(params[:job_roles]) if params[:job_roles].present?
+          work_locations(params[:work_locations]) if params[:work_locations].present?
           search(params[:open_search]) if params[:open_search].present?
         end
   
         attr_writer :limit
+
+        def gender_identity(value)
+          return if value.blank? || value.include?('all')
+          
+          @where << "employees.gender_id IN (:gender_identity)"
+          @params[:gender_identity] = value
+        end
+
+        def job_roles(value)
+          return if value.blank? || value.include?('all')
+
+          @joins << "JOIN employee_complements ON employee_complements.employee_id = employees.id"
+          @where << "employee_complements.job_role_id IN (:job_role)"
+          @params[:job_role] = value
+        end
+
+        def work_locations(value)
+          return if value.blank? || value.include?('all')
+
+          @joins << "JOIN employee_complements ON employee_complements.employee_id = employees.id"
+          @where << "employee_complements.workspace_id IN (:workspace)"
+          @params[:workspace] = value
+        end
   
         def search(value)
           return if value.nil?
@@ -28,8 +55,9 @@ module V1
   
         def fetch
           employee = ::Employee
-          query = @where.blank? ? employee.order(@order) : employee.where(@where.join(" AND "), @params).order(@order)
-  
+
+          query = @joins.blank? ? employee : employee.joins(@joins.join(" "))
+          query = @where.blank? ? query.order(@order) : query.where(@where.join(" AND "), @params).order(@order)
           @limit ? [query.limit(@limit), query.count] : [query, query.count]
         end
       end

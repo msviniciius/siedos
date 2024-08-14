@@ -165,27 +165,13 @@ export namespace ApiBase {
       [param: string]: string | string[];
     };
     reportProgress?: boolean;
-    //responseType?: 'json';
     withCredentials?: boolean;
   };
-
-  export class QueryFilter {
-    page: number;
-    limit: number;
-    search: string;
-    sort: string[];
-  }
 
   export class ErrorMessage {
     public message: string;
     public error: string;
     public invalidField: string;
-  }
-
-  export class ProductStock {
-    quantity: number;
-    size: string;
-    punctuation: string;
   }
 
   export class ListViewModelEmployee<TItem> {
@@ -218,25 +204,9 @@ export namespace ApiBase {
 		public items: TItem[];
 	}
 
-	export class Pageable {
-		public pageNumber: number;
-		public pageSize: number;
-		public offset: number;
-		public paged: boolean;
-    public unpaged: boolean;
-    public sort: Sort;
-  }
-
   export class Sort {
     public sorted: boolean;
     public unsorted: false;
     public empty: boolean;
   }
-
-	export namespace PaginatedListRequestViewModel {
-		export enum SortOrder {
-			ASC = "ASC",
-			DESC = "DESC",
-		}
-	}
 }

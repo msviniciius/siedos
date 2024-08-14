@@ -44,6 +44,14 @@ export namespace EmployeeService {
 
   export class Filter {
     open_search?: string;
+    gender_identity?: any[];
+    job_roles?: any[];
+    work_locations?: any[];
+  }
+
+  export interface FilterOption{
+    value: any;
+    text: string;
   }
 
   export class Gender {

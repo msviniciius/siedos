@@ -8,15 +8,15 @@ module V1
         filters = load_filters(params)
         query = V1::Employee::EmployeeQuery.new(filters)  # Use o nome absoluto do modelo
 
-        @presenter = V1::Employee::EmployeeListPresenter.new(query.fetch)
-        render json: @presenter.as_json
+        presenter = V1::Employee::EmployeeListPresenter.new(query.fetch)
+        render json: presenter.as_json
       end
 
       def show 
-        product = ::Employee.find_by(id: params[:id])
+        response = ::Employee.find_by(id: params[:id])
         
-        @presenter = ::V1::Employee::FullPresenter.new(product)
-        render @presenter.to_h
+        presenter = ::V1::Employee::FullPresenter.new(response)
+        render presenter.to_h
       end
 
       # POST /employee
@@ -29,7 +29,7 @@ module V1
         render json: { error: e.message }, status: :bad_request
       end
 
-      # PATCH/PUT /product/1
+      # PATCH/PUT /employee/1
       def update
         response = ::V1::Employee::BaseService.instance.update(params)
 
@@ -54,8 +54,11 @@ module V1
 
       def load_filters(params)
         filters = {}
-        filters[:open_search] = params[:open_search] if params[:open_search].present?
 
+        filters[:gender_identity] = params[:gender_identity] if params[:gender_identity].present?
+        filters[:job_roles] = params[:job_roles] if params[:job_roles].present?
+        filters[:work_locations] = params[:work_locations] if params[:work_locations].present?
+        filters[:open_search] = params[:open_search] if params[:open_search].present?
         filters
       end
 

@@ -1,4 +1,3 @@
-// angular import
 import { NgModule } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -7,40 +6,82 @@ import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
+import { NgSelectModule } from '@ng-select/ng-select';
+
+import { BasicService, Basic } from '../../../services/basic/basic.service';
 import { EmployeeService } from '../../../services/employee/employee.service';
 import { ApiBase } from '../../../../../src/app/services/api-base';
 import { ConfirmDialogComponent } from '../../../../../src/app/components/confirm-dialog/confirm-dialog.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule],
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss']
 })
 export class EmployeeListComponent implements OnInit {
   employees: ApiBase.ListViewModel<EmployeeService.Employee>;
-  filter: EmployeeService.Filter = new EmployeeService.Filter();
+
+  filter: EmployeeService.Filter;
+  gendersType: EmployeeService.FilterOption[];
+  job_roles: EmployeeService.FilterOption[];
+  workspaces: EmployeeService.FilterOption[];
+  selectedTypes: string[] = [];
+
+  selectedGenders: any[] = [];
+  selectedJobRoles: any[] = [];
+  selectedWorkLocations: any[] = [];
+
+  jobRoles: Basic[] = [];
+  workLocations: Basic[] = [];
 
   loading: boolean = false;
   searchTerm: string = '';
   searchTimeout: any;
+  toastService: any;
 
   actions = [
     { label: 'Visualizar', icon: 'fa-solid fa-eye', action: (employee: any) => this.viewEmployee(employee) },
     { label: 'Editar', icon: 'fa-solid fa-pen-to-square', action: (employee: any) => this.editEmployee(employee) },
     { label: 'Excluir', icon: 'fa-solid fa-trash', action: (employee: any) => this.deleteEmployee(employee) },
   ];
-      
+
+  FilterTypes = EmployeeListComponent.FilterTypes;
+
   constructor(
     private employeeService: EmployeeService,
     private router: Router,
     private toastr: ToastrService,
     private modalService: NgbModal,
+    private basicService: BasicService,
   ) { }
 
   ngOnInit() {
+    this.initVariables();
+    
     this.loadEmployees();
+    this.clearFilters();
+    this.loadJobRole();
+    this.loadWorkLocation();
+  }
+
+  public initVariables(): void {
+    this.gendersType = [
+      { text: "Masculino", value: "1" },
+      { text: "Feminino", value: "2" },
+      { text: "Todos", value: "0" }
+    ];
+  }
+
+  public async clearFilters(reload?: boolean): Promise<void> {
+    this.filter = new EmployeeService.Filter();
+    this.selectedTypes = [];
+    this.filter.gender_identity = [];
+    this.searchTerm = "";
+
+    await this.loadEmployees();
   }
 
   public async loadEmployees(): Promise<void> {
@@ -79,6 +120,56 @@ export class EmployeeListComponent implements OnInit {
     );
   }
 
+  loadJobRole(): void {
+    this.loading = true;
+    this.basicService.getRoles()
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: (data) => {
+          this.jobRoles = data;
+        },
+        error: (e) => this.toastService.error(e),
+      });
+  }
+
+  loadWorkLocation(): void {
+    this.loading = true;
+    this.basicService.getWorkLocation()
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: (data) => {
+          this.workLocations = data;
+        },
+        error: (e) => this.toastService.error(e),
+      });
+  }
+
+  public async onFilterChange(event: any, type: EmployeeListComponent.FilterTypes): Promise<void> {
+    try {
+      const selectedValues = Array.isArray(event) ? event.map(item => item.id || item.value) : [];
+  
+      switch (type) {
+        case EmployeeListComponent.FilterTypes.Genders:
+          this.filter.gender_identity = selectedValues;
+          break;
+  
+        case EmployeeListComponent.FilterTypes.JobRoles:
+          this.filter.job_roles = selectedValues;
+          break;
+  
+        case EmployeeListComponent.FilterTypes.WorkLocations:
+          this.filter.work_locations = selectedValues;
+          break;
+      }
+  
+      await this.loadEmployees();
+    } catch (error) {
+      console.log(error);
+      this.loading = false;
+    }
+  }
+  
+
   createEmployee() {
     this.router.navigate(['funcionarios/new']).then(success => {
       if (success) {
@@ -105,5 +196,13 @@ export class EmployeeListComponent implements OnInit {
 
   editEmployee(employeeId: number): void {
     this.router.navigate(['/funcionarios/edit', employeeId]);
+  }
+}
+
+export namespace EmployeeListComponent {
+  export enum FilterTypes {
+    Genders = 0,
+    JobRoles = 1,
+    WorkLocations = 2
   }
 }
