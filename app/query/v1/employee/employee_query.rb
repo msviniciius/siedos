@@ -17,14 +17,14 @@ module V1
         attr_writer :limit
 
         def gender_identity(value)
-          return if value.blank? || value.include?('all')
+          return if value.blank? || value.include?('0')
           
           @where << "employees.gender_id IN (:gender_identity)"
           @params[:gender_identity] = value
         end
 
         def job_roles(value)
-          return if value.blank? || value.include?('all')
+          return if value.blank?
 
           @joins << "JOIN employee_complements ON employee_complements.employee_id = employees.id"
           @where << "employee_complements.job_role_id IN (:job_role)"
@@ -32,7 +32,7 @@ module V1
         end
 
         def work_locations(value)
-          return if value.blank? || value.include?('all')
+          return if value.blank?
 
           @joins << "JOIN employee_complements ON employee_complements.employee_id = employees.id"
           @where << "employee_complements.workspace_id IN (:workspace)"

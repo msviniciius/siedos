@@ -42,7 +42,7 @@ const NavigationItems = [
     children: [
       {
         id: 'employees',
-        title: 'Funcionarios',
+        title: 'Funcionários',
         type: 'item',
         classes: 'nav-item',
         url: '/funcionarios',

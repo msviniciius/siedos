@@ -3,14 +3,13 @@ module V1
     class EmployeeListPresenter < V1::BasePresenter
       def initialize(object)
         @object = object[0]
-        # @total_pages = object.total_pages
+        @total = object[0].length
       end
 
       def as_json(*)
         return unless @object
         {
-          count: 1,
-          total_pages: 2,
+          count: @total,
           items: @object.map { |obj| V1::Employee::EmployeeItemPresenter.new(obj) }
         }
       end

@@ -10,76 +10,91 @@
         </h5>
         <div class="text-muted text-xs">
           <h6 class="m-b-10 listagem">
-            Exibindo total de {{ employees?.count }} registros.
+            Exibindo total de {{ employees?.count }} funcionários.
           </h6>
         </div>
-      </div>
-      <div class="search-container">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input
-          type="search"
-          class="form-control"
-          placeholder="Pesquise por nome ou matricula"
-          [(ngModel)]="searchTerm"
-          (input)="onSearch()"
-        />
       </div>
     </div>
 
     <div class="card-body">
-      <div class="row">
-        <div class="col-12 text-end mb-3">
-          <button type="button" class="btn btn-secondary" (click)="createEmployee()">
-            Novo funcionário
-          </button>
+      <div class="card">
+        <div class="card-header with-border">
+          <div class="page-header-title">
+            <h5 class="m-b-10">
+              <strong>
+                Pesquisar
+              </strong>
+            </h5>
+          </div>
         </div>
 
-        <div class="col-3 col-md-4 mb-3">
-          <ng-select 
-            [items]="gendersType"
-            bindLabel="text"
-            bindValue="value"
-            [multiple]="true"
-            [(ngModel)]="selectedGenders"
-            (change)="onFilterChange($event, FilterTypes.Genders)"
-            placeholder="Selecione um ou mais gêneros"
-            [appendTo]="'body'"
-            class="form-control">
-          </ng-select>
-        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 mb-3 search-container">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input
+                type="search"
+                class="form-control"
+                placeholder="Pesquise por nome ou matricula"
+                [(ngModel)]="searchTerm"
+                (input)="onSearch()"
+              />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Genêro</label>
+              <ng-select 
+                [items]="gendersType"
+                bindLabel="text"
+                bindValue="value"
+                [multiple]="true"
+                [(ngModel)]="selectedGenders"
+                (change)="onFilterChange($event, FilterTypes.Genders)"
+                placeholder="Selecione um ou mais gêneros"
+                [appendTo]="'body'"
+                class="form-control">
+              </ng-select>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Cargo</label>
+              <ng-select 
+                [items]="jobRoles"
+                bindLabel="name"
+                bindValue="value"
+                [multiple]="true"
+                [(ngModel)]="selectedJobRoles"
+                (change)="onFilterChange($event, FilterTypes.JobRoles)"
+                placeholder="Selecione um ou mais cargos"
+                [appendTo]="'body'"
+                class="form-control">
+              </ng-select>
+            </div>
         
-        <div class="col-3 col-md-4 mb-3">
-          <ng-select 
-            [items]="jobRoles"
-            bindLabel="name"
-            bindValue="value"
-            [multiple]="true"
-            [(ngModel)]="selectedJobRoles"
-            (change)="onFilterChange($event, FilterTypes.JobRoles)"
-            placeholder="Selecione um ou mais cargos"
-            [appendTo]="'body'"
-            class="form-control">
-          </ng-select>
-        </div>
-    
-        <div class="col-3 col-md-4 mb-3">
-          <ng-select 
-            [items]="workLocations"
-            bindLabel="name"
-            bindValue="value"
-            [multiple]="true"
-            [(ngModel)]="selectedWorkLocations"
-            (change)="onFilterChange($event, FilterTypes.WorkLocations)"
-            placeholder="Selecione uma ou mais locações"
-            [appendTo]="'body'"
-            class="form-control">
-          </ng-select>
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Locação</label>
+              <ng-select 
+                [items]="workLocations"
+                bindLabel="name"
+                bindValue="value"
+                [multiple]="true"
+                [(ngModel)]="selectedWorkLocations"
+                (change)="onFilterChange($event, FilterTypes.WorkLocations)"
+                placeholder="Selecione uma ou mais locações"
+                [appendTo]="'body'"
+                class="form-control">
+              </ng-select>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    
 
-  
+      <div class="text-end">
+        <button type="button" class="btn btn-secondary" (click)="createEmployee()">
+          Novo funcionário
+        </button>
+      </div>
+    </div>
+
     <div class="card-body">
       <div class="row">
         <div class="col-12 table-responsive">

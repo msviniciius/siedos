@@ -26,7 +26,6 @@ import { NavGroupComponent } from './theme/layout/admin/navigation/nav-content/n
 import { NavCollapseComponent } from './theme/layout/admin/navigation/nav-content/nav-collapse/nav-collapse.component';
 import { NavItemComponent } from './theme/layout/admin/navigation/nav-content/nav-item/nav-item.component';
 import { SharedModule } from './theme/shared/shared.module';
-import { ConfigurationComponent } from './theme/layout/admin/configuration/configuration.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
 
 @NgModule({
@@ -41,7 +40,6 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
     NavGroupComponent,
     NavItemComponent,
     NavCollapseComponent,
-    ConfigurationComponent,
     GuestComponent
   ],
   imports: [
