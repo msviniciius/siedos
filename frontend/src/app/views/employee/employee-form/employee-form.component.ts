@@ -31,6 +31,12 @@ export class EmployeeFormComponent implements OnInit {
   toastService: any;
   employeeId: string;
 
+  additionalForm: FormGroup;
+  showCard: boolean;
+
+  selectedFile: File = null;
+  employeeDocuments: any[] = [];
+
   constructor(
     private employeeService: EmployeeService,
     private basicService: BasicService,
@@ -63,6 +69,8 @@ export class EmployeeFormComponent implements OnInit {
       marital_state_id: [''],
       job_role_id: ['', Validators.required],
       workspace_id: ['', Validators.required],
+      contacts: this.fb.array([]),
+      document_upload: [null]
     });
   }
 
@@ -112,6 +120,47 @@ export class EmployeeFormComponent implements OnInit {
         },
         error: (e) => this.toastService.error(e),
       });
+  }
+
+  addContact() {
+    this.showCard = true;
+
+    const contact = this.employeeForm.get('contacts') as FormArray;
+    contact.push(this.fb.group({
+      phone: ['', Validators.required],
+      cell_phone: ['', Validators.required],
+      email: ['', Validators.required]
+    }));
+  }
+
+  removeContact(index: number) {
+    this.additionalForms.removeAt(index);
+  }
+
+  onFileChange(event) {
+    // if (event.target.files.length > 0) {
+    //   this.selectedFile = event.target.files[0];
+    //   this.employeeForm.patchValue({
+    //     document_upload: this.selectedFile
+    //   });
+    // }
+
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+  
+      const fileControl = this.employeeForm.get('document_upload');
+      if (fileControl) {
+        fileControl.setValue(this.selectedFile);
+      }
+    }
+  }
+
+  get additionalForms(): FormArray {
+    const array = this.employeeForm.get('contacts');
+    if (!array) {
+      throw new Error('FormArray not initialized');
+    }
+    return array as FormArray;
   }
 
   public async validateForm(form) {
@@ -169,19 +218,32 @@ export class EmployeeFormComponent implements OnInit {
       const employee = await this.employeeService.getOneEmployee(employeeId);
       const formattedBirthday = new Date(employee.birthday).toISOString().split('T')[0];
 
-      console.log(employee);
-
       this.employeeForm.patchValue({
         name: employee.name,
-      registration: employee.registration,
-      birthday: formattedBirthday,
-      municipality: employee.municipality,
-      state: employee.state,
-      marital_state_id: employee.marital_state.id,
-      gender_id: employee.gender.id,
-      job_role_id: employee.job_role.id,
-      workspace_id: employee.workspace.id,
+        registration: employee.registration,
+        birthday: formattedBirthday,
+        municipality: employee.municipality,
+        state: employee.state,
+        marital_state_id: employee.marital_state.id,
+        gender_id: employee.gender.id,
+        job_role_id: employee.job_role.id,
+        workspace_id: employee.workspace.id,
       });
+
+      const contactsFormArray = this.employeeForm.get('contacts') as FormArray;
+      contactsFormArray.clear();
+
+      employee.contacts.forEach(contact => {
+        const contactFormGroup = this.fb.group({
+          id: [contact.id],
+          phone: [contact.phone, Validators.required],
+          cell_phone: [contact.cell_phone, Validators.required],
+          email: [contact.email, Validators.required]
+        });
+        contactsFormArray.push(contactFormGroup);
+      });
+
+      this.employeeDocuments = employee.document_upload || [];
     } catch (error) {
       console.log(error);
       this.loading = false;

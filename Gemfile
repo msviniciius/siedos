@@ -17,10 +17,12 @@ gem 'jbuilder', '~> 2.5'
 gem 'mini_magick'
 gem "paperclip", '~> 5.0.0'
 gem 'puma', '~> 3.7'
-gem 'rails', '~> 5.1.4'
+gem 'rails', '~> 5.2.0'
 gem 'therubyracer'
 gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate', '~> 3.1.0'
+gem 'cocoon'
+gem 'bootsnap', '>= 1.1.0', require: false
 
 # database
 gem 'pg'

@@ -64,6 +64,51 @@ export abstract class ApiBase {
     });
   }
 
+  protected postOrPutWithAttachments<TResult>(path: string, content?: any, options?: ApiBase.Options): Promise<TResult> {
+    return new Promise<TResult>((resolve, reject) => {
+      const url = this.buildURL(path);
+  
+      let body: any;
+      if (content instanceof FormData) {
+        body = content;
+      } else {
+        body = this.objectToFormData(content);
+      }
+  
+      options = this.prepareOptions(options);
+  
+      this.httpClient.put<TResult>(url, body, options)
+        .subscribe(
+          result => resolve(result),
+          error => this.errorHandler(error, reject)
+        );
+    });
+  }
+
+  private objectToFormData(obj: any, form?: FormData, namespace?: string): FormData {
+    const formData = form || new FormData();
+  
+    for (const property in obj) {
+      if (obj.hasOwnProperty(property)) {
+        const formKey = namespace ? `${namespace}[${property}]` : property;
+  
+        if (obj[property] instanceof Date) {
+          formData.append(formKey, obj[property].toISOString());
+        } else if (obj[property] instanceof Array) {
+          obj[property].forEach((item, index) => {
+            this.objectToFormData(item, formData, `${formKey}[${index}]`);
+          });
+        } else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+          this.objectToFormData(obj[property], formData, formKey);
+        } else {
+          formData.append(formKey, obj[property]);
+        }
+      }
+    }
+  
+    return formData;
+  }
+
   protected delete<TResult>(path: string, content?: any, options?: ApiBase.Options): Promise<TResult> {
     return new Promise<TResult>((resolve, reject) => {
       const url = this.buildURL(path);
@@ -174,6 +219,19 @@ export namespace ApiBase {
     public invalidField: string;
   }
 
+  export class EmployeContact {
+    phone: string;
+    cell_phone: string;
+    email: string;
+    id: number;
+  }
+
+  export class EmployeDocument {
+    filename: string;
+    content_type: string;
+    byte_size: number;
+  }
+
   export class ListViewModelEmployee<TItem> {
     id: number;
     name: string;
@@ -189,6 +247,8 @@ export namespace ApiBase {
     marital_state: any;
     job_role: any;
     workspace: any;
+    contacts: EmployeContact[];
+    document_upload: any;
   }
 
   export class ListViewModel<TItem> {

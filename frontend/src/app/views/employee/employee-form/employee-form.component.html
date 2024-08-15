@@ -63,7 +63,69 @@
             <option *ngFor="let role of jobRoles" [value]="role.id">{{ role.name }}</option>
           </select>
         </div>
+
+        <div class="col-5">
+          <label for="document_upload" class="form-label">Documento</label>
+          <input type="file" id="document_upload" class="form-control" (change)="onFileChange($event)"/>
+        </div>
+        <div *ngIf="employeeDocuments" class="mt-2">
+          <strong>Arquivos adicionados:</strong>
+          <ul>
+            <li *ngFor="let document of employeeDocuments">{{ document.filename }}</li>
+          </ul>
+        </div>
       </form>
+    </div>
+
+    <br>
+    <div class="col-12 text-end">
+      <button type="button" class="btn btn-secondary" (click)="addContact()">
+        <i class="ti ti-plus"></i>Adicionar contato
+      </button>
+    </div>
+    <br>
+
+    <div class="card" *ngIf="showCard || employeeId">
+      <div class="card-header with-border">
+        <div class="page-header-title">
+          <h5 class="m-b-10">
+            <strong>
+              <i class="fa-solid fa-address-card"></i>
+              Informações de contato
+            </strong>
+          </h5>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="employeeForm">
+          <div formArrayName="contacts">
+            <div *ngFor="let ct of additionalForms.controls; let i = index" [formGroupName]="i">
+              <div *ngIf="i != 0" class="divider"></div>
+              <div class="row mb-3">
+                <div class="col-md-1 remove">
+                  <label class="form-label"></label>
+                  <input type="number" class="form-control" [value]="i + 1" readonly>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Telefone*</label>
+                  <input type="text" class="form-control" formControlName="phone" required>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Celular*</label>
+                  <input type="text" class="form-control" formControlName="cell_phone" required>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">E-mail*</label>
+                  <input type="email" class="form-control" formControlName="email" required>
+                </div>
+                <div class="col-md-1 remove">
+                  <button type="button" class="btn btn-danger ti ti-trash" (click)="removeContact(i)"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
 
     <br>

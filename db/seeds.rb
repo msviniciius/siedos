@@ -64,8 +64,8 @@ workspaces = [
 # =======================================================
 
 genders = [
-  "Homem",
-  "Mulher"
+  "Masculino",
+  "Feminino"
 ]
 
 genders.each do |gender| 
@@ -75,9 +75,9 @@ end
 # =======================================================
 
 marital_states = [
-  "Solteiro",
-  "Casado",
-  "Divorciado"
+  "Solteiro(a)",
+  "Casado(a)",
+  "Divorciado(a)"
 ]
 
 marital_states.each do |state| 

@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20240814201757) do
+ActiveRecord::Schema.define(version: 2024_08_15_010704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
 
   create_table "employee_complements", force: :cascade do |t|
     t.bigint "employee_id"
@@ -25,6 +46,26 @@ ActiveRecord::Schema.define(version: 20240814201757) do
     t.index ["job_role_id", "workspace_id"], name: "index_unique_job_role_workspace", unique: true
     t.index ["job_role_id"], name: "index_employee_complements_on_job_role_id"
     t.index ["workspace_id"], name: "index_employee_complements_on_workspace_id"
+  end
+
+  create_table "employee_contacts", force: :cascade do |t|
+    t.bigint "employee_id", null: false
+    t.string "phone"
+    t.string "cell_phone"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cell_phone"], name: "index_employee_contacts_on_cell_phone", unique: true
+    t.index ["email"], name: "index_employee_contacts_on_email", unique: true
+    t.index ["employee_id"], name: "index_employee_contacts_on_employee_id"
+    t.index ["phone"], name: "index_employee_contacts_on_phone", unique: true
+  end
+
+  create_table "employee_documents", force: :cascade do |t|
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_employee_documents_on_employee_id"
   end
 
   create_table "employees", force: :cascade do |t|
@@ -65,8 +106,11 @@ ActiveRecord::Schema.define(version: 20240814201757) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "employee_complements", "job_roles"
   add_foreign_key "employee_complements", "workspaces"
+  add_foreign_key "employee_contacts", "employees"
+  add_foreign_key "employee_documents", "employees"
   add_foreign_key "employees", "genders"
   add_foreign_key "employees", "marital_states"
 end

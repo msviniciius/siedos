@@ -51,6 +51,7 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
     BrowserAnimationsModule,
     MatButtonModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     HttpClientModule,
     NgbModule,

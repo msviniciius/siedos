@@ -21,6 +21,19 @@ module V1
             job_role_id: params[:job_role_id]
           )
 
+          params[:contacts].each do |contact|
+            ::EmployeeContact.create!(
+              employee_id: employee.id,
+              phone: contact[:phone],
+              cell_phone: contact[:cell_phone],
+              email: contact[:email]
+            )
+          end
+
+          if params[:document_upload].present?
+            employee.employee_documents.create!(document: params[:document_upload])
+          end
+
           unless employee_complement.persisted?
             raise ActiveRecord::Rollback, 'Failed create EmployeeComplement'
           end
@@ -31,21 +44,49 @@ module V1
 
       def update(params)
         employee = ::Employee.find(params[:id])
+        
+        ActiveRecord::Base.transaction do
+          employee.update!(
+            name: params[:name],
+            registration: params[:registration],
+            birthday: params[:birthday],
+            municipality: params[:municipality],
+            state: params[:state],
+            gender_id: params[:gender_id],
+            marital_state_id: params[:marital_state_id]
+          )
 
-        employee.update!(
-          name: params[:name],
-          registration: params[:registration],
-          birthday: params[:birthday],
-          municipality: params[:municipality],
-          state: params[:state],
-          gender_id: params[:gender_id],
-          marital_state_id: params[:marital_state_id]
-        )
+          employee.employee_complement.update!(
+            workspace_id: params[:workspace_id],
+            job_role_id: params[:job_role_id]
+          )
 
-        employee.employee_complement.update!(
-          workspace_id: params[:workspace_id],
-          job_role_id: params[:job_role_id]
-        )
+          existing_contacts = employee.employee_contacts.index_by(&:id)
+          params[:contacts].values.each do |contact_params|
+            if contact_params[:id].present?
+              if existing_contacts[contact_params[:id].to_i]
+                existing_contacts[contact_params[:id].to_i].update!(
+                  phone: contact_params[:phone],
+                  cell_phone: contact_params[:cell_phone],
+                  email: contact_params[:email]
+                )
+                existing_contacts.delete(contact_params[:id].to_i)
+              end
+            else
+              employee.employee_contacts.create!(
+                phone: contact_params[:phone],
+                cell_phone: contact_params[:cell_phone],
+                email: contact_params[:email]
+              )
+            end
+          end
+
+          existing_contacts.values.each(&:destroy)
+
+          if params[:document_upload].present?
+            employee.employee_documents.create!(document: params[:document_upload])
+          end
+        end
 
         employee
       end
