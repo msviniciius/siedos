@@ -7,7 +7,7 @@ module V1
           @joins = []
           @order = {id: :desc}
           @limit = 200
-          
+
           gender_identity(params[:gender_identity]) if params[:gender_identity].present?
           job_roles(params[:job_roles]) if params[:job_roles].present?
           work_locations(params[:work_locations]) if params[:work_locations].present?

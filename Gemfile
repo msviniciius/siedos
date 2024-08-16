@@ -24,6 +24,12 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'cocoon'
 gem 'bootsnap', '>= 1.1.0', require: false
 
+gem 'prawn'
+gem 'prawn-table'
+gem 'axlsx'
+gem 'sidekiq'
+gem 'redis-namespace'
+
 # database
 gem 'pg'
 

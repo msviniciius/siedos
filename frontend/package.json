@@ -29,6 +29,7 @@
     "@popperjs/core": "^2.11.8",
     "apexcharts": "^3.49.2",
     "bootstrap": "^5.3.3",
+    "file-saver": "^2.0.5",
     "jquery": "^3.7.1",
     "ng-apexcharts": "^1.11.0",
     "ngx-scrollbar": "^15.0.1",

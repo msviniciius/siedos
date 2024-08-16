@@ -7,9 +7,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 import { NgSelectModule } from '@ng-select/ng-select';
+import { saveAs } from 'file-saver';
 
 import { BasicService, Basic } from '../../../services/basic/basic.service';
 import { EmployeeService } from '../../../services/employee/employee.service';
+import { ExportService } from '../../../services/pdf/export.service';
 import { ApiBase } from '../../../../../src/app/services/api-base';
 import { ConfirmDialogComponent } from '../../../../../src/app/components/confirm-dialog/confirm-dialog.component';
 import { finalize } from 'rxjs';
@@ -46,12 +48,18 @@ export class EmployeeListComponent implements OnInit {
     { label: 'Visualizar', icon: 'fa-solid fa-eye', action: (employee: any) => this.viewEmployee(employee) },
     { label: 'Editar', icon: 'fa-solid fa-pen-to-square', action: (employee: any) => this.editEmployee(employee) },
     { label: 'Excluir', icon: 'fa-solid fa-trash', action: (employee: any) => this.deleteEmployee(employee) },
-  ];
+  ];  
+  
+  optionExports: { label: string, icon: string, option: Function }[] = [
+    { label: 'PDF', icon: 'fa-solid fa-file-pdf', option: this.exportPdf.bind(this) },
+    { label: 'XLS', icon: 'fa-solid fa-file-excel', option: this.exportXls.bind(this) }
+  ];  
 
   FilterTypes = EmployeeListComponent.FilterTypes;
 
   constructor(
     private employeeService: EmployeeService,
+    private exportService: ExportService,
     private router: Router,
     private toastr: ToastrService,
     private modalService: NgbModal,
@@ -94,6 +102,34 @@ export class EmployeeListComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  exportOptions(label: string) {
+    switch(label) {
+      case 'PDF':
+        this.exportPdf();
+        break;
+      case 'XLS':
+        this.exportXls();
+        break; 
+    }
+  }
+  
+  private exportPdf() {
+    this.exportService.exportEmployeesPdf(this.filter)
+    .then(blob => {
+      saveAs(blob, 'employees.pdf');
+    }).catch(error => {
+      console.error('Erro ao exportar PDF:', error);
+    });
+  }
+
+  private exportXls() {
+    this.exportService.exportEmployeesXls(this.filter).then(blob => {
+      saveAs(blob, 'employees.xlsx');
+    }).catch(error => {
+      console.error('Erro ao exportar XLS:', error);
+    });
   }
 
   public async deleteEmployee(id: any) {

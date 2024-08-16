@@ -56,7 +56,8 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
     FontAwesomeModule,
     NgSelectModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-top-right' // Define a posição globalmente
+      positionClass: 'toast-top-right',
+      preventDuplicates: true
     }),
   ],
   providers: [NavigationItem],

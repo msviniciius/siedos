@@ -72,20 +72,3 @@ export namespace EmployeeService {
     title: string;
   }
 }
-
-// no params de updateEmployee recebeo esse objeto
-
-// Object
-// birthday: "2010-03-02"
-// contacts: [{…}]
-// document_upload: File {name: 'Marcos Vinicius.pdf', lastModified: 1722945952457, lastModifiedDate: Tue Aug 06 2024 09:05:52 GMT-0300 (Horário Padrão de Brasília), webkitRelativePath: '', size: 116622, …}
-// gender_id: 1
-// job_role_id: 5
-// marital_state_id: 2
-// municipality: "Senador Alexandre Costa"
-// name: "Raphaela Lau da Silva"
-// registration: "MAT300"
-// state: "Maranhão"
-// workspace_id: 13
-
-// mas no backend recebo ele "document_upload"=>{}
