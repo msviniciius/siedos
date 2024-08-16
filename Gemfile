@@ -30,6 +30,8 @@ gem 'axlsx'
 gem 'sidekiq'
 gem 'redis-namespace'
 
+gem "jwt", "~> 2.7"
+
 # database
 gem 'pg'
 

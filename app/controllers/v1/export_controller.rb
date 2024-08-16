@@ -1,5 +1,6 @@
 module V1
   class ExportController < ApplicationController
+    # GET /pdf/export_pdf
     def export_pdf
       filters = load_filters(params)
       
@@ -12,6 +13,7 @@ module V1
       render json: { error: e.message }, status: :bad_request
     end
     
+    # GET /xls/export_xls
     def export_xls
       filters = load_filters(params)
       

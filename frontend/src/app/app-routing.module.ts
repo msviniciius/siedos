@@ -37,7 +37,7 @@ const routes: Routes = [
     children: [
       {
         path: 'guest',
-        loadChildren: () => import('./demo/pages/authentication/authentication.module').then((m) => m.AuthenticationModule)
+        loadChildren: () => import('./views/login/authentication/authentication.module').then((m) => m.AuthenticationModule)
       }
     ]
   }

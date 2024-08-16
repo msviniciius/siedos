@@ -1,0 +1,44 @@
+<div class="auth-main">
+  <div class="auth-wrapper v3">
+    <div class="auth-form">
+      <div class="card mt-5">
+        <div class="card-body">
+          <a href="javascript:" class="d-flex justify-content-center mt-3">
+            <img src="assets/images/siedos-logged.png" />
+          </a>
+          <div class="row">
+            <div class="d-flex justify-content-center">
+              <div class="auth-header">
+                <h2 class="text-secondary mt-5"><b>Olá, bem-vindo!</b></h2>
+              </div>
+            </div>
+          </div>
+          <h5 class="my-4 d-flex justify-content-center">Cadastre-se com endereço de e-mail</h5>
+
+          <form [formGroup]="registerForm">
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="floatingInput" formControlName="email" placeholder="name@example.com"/>
+              <label for="floatingInput">Email</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="floatingPassword" formControlName="password" placeholder="Senha"/>
+              <label for="floatingPassword">Senha</label>
+            </div>            
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="floatingPasswordConfirmation" formControlName="password_confirmation" placeholder="Confirme a Senha"/>
+              <label for="floatingPasswordConfirmation">Confirmação de senha</label>
+            </div>
+          </form>
+
+          <div class="d-grid mt-4">
+            <button type="button" class="btn btn-secondary p-2" (click)="onRegistration()" [disabled]="registerForm.invalid">Inscrever-se</button>
+          </div>
+          <hr />
+          <h5 class="d-flex justify-content-center">
+            <a [routerLink]="['/guest/login']">Já tenho uma conta?</a>
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-
+import { AuthGuard } from './guards/auth.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -60,7 +60,10 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
       preventDuplicates: true
     }),
   ],
-  providers: [NavigationItem],
+  providers: [
+    AuthGuard,
+    NavigationItem
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })

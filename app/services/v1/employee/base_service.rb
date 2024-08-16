@@ -104,8 +104,6 @@ module V1
           employee.destroy
           { success: true, message: 'Funcionário excluído com sucesso' }
         end
-      rescue StandardError => e
-        { success: false, error: e.message }
       end
     end
   end

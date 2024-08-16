@@ -1,0 +1,46 @@
+<div class="auth-main">
+  <div class="auth-wrapper v3">
+    <div class="auth-form">
+      <div class="card my-5">
+        <div class="card-body">
+          <a href="#" class="d-flex justify-content-center">
+            <img src="assets/images/siedos-logged.png" />
+          </a>
+          <div class="row">
+            <div class="d-flex justify-content-center">
+              <div class="auth-header">
+                <h2 class="text-secondary mt-5"><b>Olá, bem-vindo!</b></h2>
+              </div>
+            </div>
+          </div>
+          <h5 class="my-4 d-flex justify-content-center">Faça login com endereço de e-mail</h5>
+
+          <form [formGroup]="loginForm">
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="floatingInput" formControlName="email" (input)="onEmailInput()">
+              <label for="floatingInput">Email</label>
+            </div>
+            <label *ngIf="!emailValid && loginForm.get('email')?.touched" class="form-floating mb-3 text-danger">Usuário não encontrado</label>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="floatingPassword" formControlName="password"/>
+              <label for="password">Senha</label>
+            </div>
+          </form>
+          <div class="d-flex mt-1 justify-content-between">
+            <h5 class="text-secondary">
+              <a href="javascript:">Esqueceu sua senha?</a>
+            </h5>
+          </div>
+          <div class="d-grid mt-4">
+            <button type="button" class="btn btn-secondary" (click)="onLogin()" [disabled]="!isFormValid">Entrar</button>
+          </div>
+          
+          <hr />
+          <h5 class="d-flex justify-content-center">
+            Sou novo aqui.<a [routerLink]="['/guest/regristrar']">Criar conta</a>
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

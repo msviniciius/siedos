@@ -150,6 +150,8 @@ GEM
     jquery-ui-rails (7.0.0)
       railties (>= 3.2.16)
     json (2.7.2)
+    jwt (2.8.2)
+      base64
     kwalify (0.7.2)
     libv8 (3.16.14.19.1-x86_64-linux)
     listen (3.1.5)
@@ -412,6 +414,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   json
+  jwt (~> 2.7)
   listen (>= 3.0.5, < 3.2)
   mini_magick
   nested_form
