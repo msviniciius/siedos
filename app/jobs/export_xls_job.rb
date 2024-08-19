@@ -3,7 +3,6 @@ class ExportXlsJob
   
     def perform(filters)
       query = V1::Employee::EmployeeQuery.new(filters)
-      debugger
       employees = query.fetch
       xls_data = ::V1::Export::BaseService.instance.export_xls(employees)
   
