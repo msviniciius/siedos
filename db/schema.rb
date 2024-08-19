@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_08_16_142459) do
+ActiveRecord::Schema.define(version: 2024_08_16_032548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 2024_08_16_142459) do
 
   create_table "employee_complements", force: :cascade do |t|
     t.bigint "employee_id"
-    t.bigint "job_role_id"
-    t.bigint "workspace_id"
+    t.bigint "job_role_id", null: false
+    t.bigint "workspace_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_employee_complements_on_employee_id"
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 2024_08_16_142459) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "employee_complements", "employees"
   add_foreign_key "employee_complements", "job_roles"
   add_foreign_key "employee_complements", "workspaces"
   add_foreign_key "employee_contacts", "employees"

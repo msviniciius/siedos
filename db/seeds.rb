@@ -61,6 +61,10 @@ workspaces = [
   "Tribunal de Justiça do Distrito Federal e Territórios"
 ]
 
+workspaces.each do |role|
+  Workspace.find_or_create_by!(title: role)
+end
+
 # =======================================================
 
 genders = [
