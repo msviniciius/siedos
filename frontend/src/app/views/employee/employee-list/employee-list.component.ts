@@ -14,6 +14,7 @@ import { EmployeeService } from '../../../services/employee/employee.service';
 import { ExportService } from '../../../services/pdf/export.service';
 import { ApiBase } from '../../../../../src/app/services/api-base';
 import { ConfirmDialogComponent } from '../../../../../src/app/components/confirm-dialog/confirm-dialog.component';
+import { AuthService } from '../../../services/auth/auth.service';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -44,6 +45,8 @@ export class EmployeeListComponent implements OnInit {
   searchTimeout: any;
   toastService: any;
 
+  canCreate: boolean = false;
+
   actions = [
     { label: 'Visualizar', icon: 'fa-solid fa-eye', action: (employee: any) => this.viewEmployee(employee) },
     { label: 'Editar', icon: 'fa-solid fa-pen-to-square', action: (employee: any) => this.editEmployee(employee) },
@@ -64,6 +67,7 @@ export class EmployeeListComponent implements OnInit {
     private toastr: ToastrService,
     private modalService: NgbModal,
     private basicService: BasicService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -73,6 +77,7 @@ export class EmployeeListComponent implements OnInit {
     this.clearFilters();
     this.loadJobRole();
     this.loadWorkLocation();
+    this.checkAuthentication();
   }
 
   public initVariables(): void {
@@ -232,6 +237,10 @@ export class EmployeeListComponent implements OnInit {
 
   editEmployee(employeeId: number): void {
     this.router.navigate(['/funcionarios/edit', employeeId]);
+  }
+
+  checkAuthentication(): void {
+    this.canCreate = this.authService.isAuthenticated();
   }
 }
 

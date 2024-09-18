@@ -13,7 +13,7 @@ export class AuthService {
     private http: HttpClient
   ) {}
   
-  register(params: string): Observable<boolean> {
+  register(params: any): Observable<boolean> {
     return this.http.post<any>(`${this.apiUrl}/user/register`, params).pipe(
       map(response => {
         if (response && response.token) {
@@ -27,12 +27,33 @@ export class AuthService {
   }
 
   login(params: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/user/login`, params);
+    return this.http.post<any>(`${this.apiUrl}/user/login`, params).pipe(
+      map(response => {
+        if (response && response.token) {
+          localStorage.setItem('auth_token', response.token);
+        }
+        return response;
+      }),
+      catchError(() => of({ success: false }))
+    );
   }
 
   checkEmail(params: any): Observable<boolean> {
     return this.http.post<{ exists: boolean }>(`${this.apiUrl}/user/check-email`, params).pipe(
-      map(response => response.exists)
+      map(response => response.exists),
+      catchError(() => of(false))
     );
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('auth_token');
+  }
+
+  logout(): void {
+    localStorage.removeItem('auth_token');
+  }
+
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('auth_token');
   }
 }

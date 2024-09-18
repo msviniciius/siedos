@@ -1,7 +1,8 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  # devise_for :users
+  devise_for :users
+  
   scope '/v1', defaults: { format: 'json' } do
     mount Sidekiq::Web => '/sidekiq'
 

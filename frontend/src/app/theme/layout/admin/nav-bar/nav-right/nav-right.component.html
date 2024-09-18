@@ -137,7 +137,8 @@
               <a [routerLink]="['/guest/login']" class="dropdown-item">
                 <i class="ti ti-logout"></i>
                 <span>Entrar</span>
-              </a><a [routerLink]="['/']" class="dropdown-item">
+              </a>
+              <a (click)="logout()" class="dropdown-item">
                 <i class="ti ti-logout"></i>
                 <span>Sair</span>
               </a>

@@ -74,12 +74,8 @@ ActiveRecord::Schema.define(version: 2024_08_16_032548) do
     t.date "birthday"
     t.string "municipality"
     t.string "state"
-    t.bigint "gender_id"
-    t.bigint "marital_state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["gender_id"], name: "index_employees_on_gender_id"
-    t.index ["marital_state_id"], name: "index_employees_on_marital_state_id"
   end
 
   create_table "genders", force: :cascade do |t|
@@ -124,6 +120,4 @@ ActiveRecord::Schema.define(version: 2024_08_16_032548) do
   add_foreign_key "employee_complements", "workspaces"
   add_foreign_key "employee_contacts", "employees"
   add_foreign_key "employee_documents", "employees"
-  add_foreign_key "employees", "genders"
-  add_foreign_key "employees", "marital_states"
 end

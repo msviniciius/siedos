@@ -103,7 +103,7 @@
       </div>
 
       <div class="text-end">
-        <button type="button" class="btn btn-secondary" (click)="createEmployee()">
+        <button *ngIf="canCreate" type="button" class="btn btn-secondary" (click)="createEmployee()">
           Novo funcionário
         </button>
       </div>
@@ -136,7 +136,7 @@
                   <td>{{ employee.workspace?.title }}</td>
                   <td>{{ employee.job_role?.title }}</td>
                   <td class="text-right">
-                    <div class="btn-group dropend">
+                    <div *ngIf="canCreate" class="btn-group dropend">
                       <i type="button" class="fa-solid fa-gear" data-bs-toggle="dropdown" aria-expanded="false"></i>
                       <div class="dropdown-menu">
                         <button class="dropdown-item" *ngFor="let action of actions" (click)="action.action(employee.id)">
