@@ -24,6 +24,8 @@ export namespace UserAuthService {
   }
 
   export interface Content {
+    id: any;
+    role: string;
     user: User;
   }
 }

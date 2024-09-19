@@ -15,6 +15,9 @@ import { ExportService } from '../../../services/pdf/export.service';
 import { ApiBase } from '../../../../../src/app/services/api-base';
 import { ConfirmDialogComponent } from '../../../../../src/app/components/confirm-dialog/confirm-dialog.component';
 import { AuthService } from '../../../services/auth/auth.service';
+import { ApiAuthService } from '../../../services/auth/api-auth.service';
+import { UserAuthService } from '../../../services/auth/user_auth.service';
+
 import { finalize } from 'rxjs';
 
 @Component({
@@ -46,12 +49,39 @@ export class EmployeeListComponent implements OnInit {
   toastService: any;
 
   canCreate: boolean = false;
+  userInfo: UserAuthService.Content;
+  userRole: string | null = null;
+  actions = [];
+  userId: number | null = null;
 
-  actions = [
-    { label: 'Visualizar', icon: 'fa-solid fa-eye', action: (employee: any) => this.viewEmployee(employee) },
-    { label: 'Editar', icon: 'fa-solid fa-pen-to-square', action: (employee: any) => this.editEmployee(employee) },
-    { label: 'Excluir', icon: 'fa-solid fa-trash', action: (employee: any) => this.deleteEmployee(employee) },
-  ];  
+  configureActions(): void {
+    if (this.userRole === 'admin') {
+      this.actions = [
+        { label: 'Visualizar', icon: 'fa-solid fa-eye', action: (employee: any) => this.viewEmployee(employee) },
+        { label: 'Editar', icon: 'fa-solid fa-pen-to-square', action: (employee: any) => this.editEmployee(employee) },
+        { label: 'Excluir', icon: 'fa-solid fa-trash', action: (employee: any) => this.deleteEmployee(employee) },
+      ];
+    } else if (this.userRole === 'rh') {
+      this.actions = [
+        { label: 'Visualizar', icon: 'fa-solid fa-eye', action: (employee: any) => this.viewEmployee(employee) },
+        { label: 'Editar', icon: 'fa-solid fa-pen-to-square', action: (employee: any) => this.editEmployee(employee) },
+        { label: 'Excluir', icon: 'fa-solid fa-trash', action: (employee: any) => this.deleteEmployee(employee) },
+      ];
+    } else if (this.userRole === 'employee') {
+      this.actions = [
+        { label: 'Visualizar', icon: 'fa-solid fa-eye', action: (employee: any) => this.viewEmployee(employee) },
+        {
+          label: 'Editar', 
+          icon: 'fa-solid fa-pen-to-square', 
+          action: (employee: any) => {
+            if (employee.id === this.userId) {
+              this.editEmployee(employee);
+            }
+          }
+        }
+      ];
+    }
+  }
   
   optionExports: { label: string, icon: string, option: Function }[] = [
     { label: 'PDF', icon: 'fa-solid fa-file-pdf', option: this.exportPdf.bind(this) },
@@ -68,6 +98,7 @@ export class EmployeeListComponent implements OnInit {
     private modalService: NgbModal,
     private basicService: BasicService,
     private authService: AuthService,
+    private apiAuthService: ApiAuthService,
   ) { }
 
   ngOnInit() {
@@ -78,6 +109,7 @@ export class EmployeeListComponent implements OnInit {
     this.loadJobRole();
     this.loadWorkLocation();
     this.checkAuthentication();
+    this.getUser();
   }
 
   public initVariables(): void {
@@ -241,6 +273,29 @@ export class EmployeeListComponent implements OnInit {
 
   checkAuthentication(): void {
     this.canCreate = this.authService.isAuthenticated();
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('auth_token');
+  }
+
+  getUser(): void {
+    this.loading = true;
+    const token = this.getToken();
+  
+    this.apiAuthService.getUser(token)
+      .then(user => {
+        this.userInfo = user;
+        this.userRole = user.role;
+        this.userId = user.id;
+        this.configureActions();
+      })
+      .catch(error => {
+        console.error('Erro ao carregar informações do usuário:', error);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
   }
 }
 

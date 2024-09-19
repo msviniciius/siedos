@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_08_16_032548) do
+ActiveRecord::Schema.define(version: 2024_09_19_114236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,8 +74,12 @@ ActiveRecord::Schema.define(version: 2024_08_16_032548) do
     t.date "birthday"
     t.string "municipality"
     t.string "state"
+    t.bigint "gender_id"
+    t.bigint "marital_state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["gender_id"], name: "index_employees_on_gender_id"
+    t.index ["marital_state_id"], name: "index_employees_on_marital_state_id"
   end
 
   create_table "genders", force: :cascade do |t|
@@ -104,6 +108,7 @@ ActiveRecord::Schema.define(version: 2024_08_16_032548) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -120,4 +125,6 @@ ActiveRecord::Schema.define(version: 2024_08_16_032548) do
   add_foreign_key "employee_complements", "workspaces"
   add_foreign_key "employee_contacts", "employees"
   add_foreign_key "employee_documents", "employees"
+  add_foreign_key "employees", "genders"
+  add_foreign_key "employees", "marital_states"
 end

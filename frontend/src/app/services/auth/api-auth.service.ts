@@ -25,7 +25,7 @@ export class ApiAuthService extends ApiBase {
         'Authorization': token
       })
     };
-    return super.get<UserAuthService.Content>("/auth/user/infos", options);
+    return super.get<UserAuthService.Content>("auth/user/infos", options);
   }
 }
 

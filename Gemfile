@@ -34,6 +34,7 @@ gem "jwt", "~> 2.7"
 
 # database
 gem 'pg'
+gem 'cancancan', '~> 3.0'
 
 gem 'rack-cors', require: 'rack/cors'
 

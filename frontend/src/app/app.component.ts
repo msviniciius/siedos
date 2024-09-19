@@ -20,7 +20,7 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-    this.getUser();
+    // this.getUser();
   }
 
   getToken(): string | null {

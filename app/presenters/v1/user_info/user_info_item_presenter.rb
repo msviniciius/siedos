@@ -9,7 +9,8 @@ module V1
         return unless @object
         {
           id: @object.id,
-          name: @object.email
+          name: @object.email,
+          role: @object.role
         }
       end
     end
