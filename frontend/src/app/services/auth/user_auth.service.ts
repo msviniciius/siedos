@@ -11,9 +11,9 @@ export class UserAuthService {
   ) { }
 
   public async loadUser(): Promise<void>{
-    const content = await this.apiAuthService.getUser();
-    this.user = content.user;
-    CookiesUtils.set('permissions', JSON.stringify(this.user.permissions));
+    // const content = await this.apiAuthService.getUser();
+    // this.user = content.user;
+    // CookiesUtils.set('permissions', JSON.stringify(this.user.permissions));
   }
 }
 

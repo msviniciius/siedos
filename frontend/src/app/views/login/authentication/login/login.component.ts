@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loading: boolean = false
   saving: boolean = false;
-  emailValid: boolean = false;
+  emailValid: boolean = true;
   
   constructor(
     private fb: FormBuilder,
@@ -52,21 +52,21 @@ export class LoginComponent implements OnInit {
   }  
 
   onEmailInput() {
-    const email = this.loginForm.get('email')?.value;
-    if (email) {
-      this.authService.checkEmail({ email }).subscribe({
-        next: (response) => {
-          if (response) {
-            this.emailValid = true;
-          } else {
-            this.emailValid = false;
-          }
-        },
-        error: (err) => {
-          this.emailValid = false;
-        }
-      });
-    }
+    // const email = this.loginForm.get('email')?.value;
+    // if (email) {
+    //   this.authService.checkEmail({ email }).subscribe({
+    //     next: (response) => {
+    //       if (response) {
+    //         this.emailValid = true;
+    //       } else {
+    //         this.emailValid = false;
+    //       }
+    //     },
+    //     error: (err) => {
+    //       this.emailValid = false;
+    //     }
+    //   });
+    // }
   }
 
   get isFormValid(): boolean {

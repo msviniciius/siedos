@@ -15,12 +15,12 @@ export abstract class ApiBase {
   protected get<TResult>(path: string, options?: ApiBase.Options): Promise<TResult> {
     return new Promise<TResult>((resolve, reject) => {
       const url = this.buildURL(path);
-
+  
       options = this.prepareOptions(options);
-
+  
       return this.httpClient.get<TResult>(url, options)
         .subscribe(
-          result => { resolve(result) },
+          result => resolve(result),
           error => this.errorHandler(error, reject));
     });
   }
@@ -146,30 +146,34 @@ export abstract class ApiBase {
     }
   }
 
-  protected buildHeader(auth: boolean = false): { [header: string]: string | string[] } {
-    var headers: any = {
+  protected buildHeader(authToken?: string): { [header: string]: string | string[] } {
+    const headers: { [header: string]: string | string[] } = {
       'Accept-Language': 'pt-BR'
     };
-
-    if (auth) {
-      headers.Authorization = 'true';
+  
+    if (authToken) {
+      headers['Authorization'] = authToken;
     }
-
+  
     return headers;
   }
 
-  private prepareOptions(options: ApiBase.Options): ApiBase.Options {
+  private prepareOptions(options?: ApiBase.Options): ApiBase.Options {
     if (!options) {
       options = {};
     }
-
-    if (options.headers) {
+  
+    // Prepare headers
+    options.headers = options.headers || {};
+    
+    if (options.headers instanceof HttpHeaders) {
+      options.headers = options.headers.set('Authorization', 'Bearer ' + (options.headers.get('Authorization') || ''));
+    } else if (typeof options.headers === 'object') {
       options.headers = Object.assign(this.buildHeader(), options.headers);
-    }
-    else {
+    } else {
       options.headers = this.buildHeader();
     }
-
+  
     return options;
   }
 

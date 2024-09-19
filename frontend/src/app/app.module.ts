@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ApiAuthService } from './services/auth/api-auth.service';
 
 import { AuthGuard } from './guards/auth.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -62,7 +63,8 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
   ],
   providers: [
     AuthGuard,
-    NavigationItem
+    NavigationItem,
+    ApiAuthService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, finalize, map, Observable, of } from 'rxjs';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
+import { ApiAuthService } from '/home/siedos/Documentos/solides/rh_challenge_marcos_vinicius/frontend/src/app/services/auth/api-auth.service'
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,14 @@ import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 export class AuthService {
   private apiUrl = 'http://localhost:3000/v1';
 
+  loading: boolean = false;
+  userInfo: ApiAuthService.Content | null = null;
+
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: ApiAuthService
   ) {}
-  
+
   register(params: any): Observable<boolean> {
     return this.http.post<any>(`${this.apiUrl}/user/register`, params).pipe(
       map(response => {

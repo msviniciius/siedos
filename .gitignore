@@ -44,3 +44,6 @@ bower.json
 .byebug_history
 /config/database.yml
 coverage
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key

@@ -27,5 +27,7 @@ Rails.application.routes.draw do
     post '/user/register',        to: 'v1/user_authentication/base#register'
     post '/user/login',           to: 'v1/user_authentication/base#login'
     post '/user/check-email',     to: 'v1/user_authentication/base#check_email'
+
+    get '/auth/user/infos',      to: 'v1/auth/users#infos'
   end
 end

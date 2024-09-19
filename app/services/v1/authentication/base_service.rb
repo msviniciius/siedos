@@ -48,11 +48,11 @@ module V1
       def generate_token(user)
         payload = {
           user_id: user.id,
-          email: user.email,
           exp: AUTH_TOKEN_DURATION.to_i
         }
 
-        JWT.encode(payload, SECRET_KEY)
+        token = JWT.encode(payload, Rails.application.credentials.secret_key_base, 'HS256')
+        token
       end
 
       def find_user_and_decode_password(params)
