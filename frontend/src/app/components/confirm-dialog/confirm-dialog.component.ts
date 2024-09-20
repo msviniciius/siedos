@@ -8,6 +8,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ConfirmDialogComponent {
   @Input() title: string = '';
+  @Input() subtitle: string = '';
 
   constructor(
     public activeModal: NgbActiveModal

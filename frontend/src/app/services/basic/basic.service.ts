@@ -33,6 +33,10 @@ export class BasicService {
       map(response => response.items)
     );
   }
+
+  getUserRoles(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/roles`);
+  }
 }
 
 export interface Basic {

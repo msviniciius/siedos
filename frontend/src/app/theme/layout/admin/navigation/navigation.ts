@@ -47,6 +47,14 @@ const NavigationItems = [
         classes: 'nav-item',
         url: '/funcionarios',
         icon: 'ti ti-archive'
+      },
+      {
+        id: 'users',
+        title: 'Usuários',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/usuarios',
+        icon: 'ti ti-user',
       }
     ]
   }

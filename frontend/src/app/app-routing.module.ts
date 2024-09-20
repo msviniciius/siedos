@@ -28,6 +28,14 @@ const routes: Routes = [
       {
         path: 'funcionarios/edit/:id',
         loadComponent: () => import('./views/employee/employee-form/employee-form.component').then(m => m.EmployeeFormComponent)
+      },      
+      {
+        path: 'usuarios',
+        loadComponent: () => import('./views/user/user-list/user-list.component').then(m => m.UserListComponent)
+      },
+      {
+        path: 'usuarios/edit/:id',
+        loadComponent: () => import('./views/user/user-form/user-form.component').then(m => m.UserFormComponent)
       }
     ]
   },

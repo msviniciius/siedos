@@ -35,6 +35,11 @@ module V1
         render json: @presenter.as_json
       end
 
+      def roles
+        @presenter = ::User.roles.keys.map { |role| { id: role, name: role.humanize } }
+        render json: @presenter.as_json
+      end
+
       private
 
       def json_request?

@@ -11,13 +11,21 @@ Rails.application.routes.draw do
     get '/funcionarios/:id',    to: 'v1/employee/base#show'
     post '/funcionarios/new',   to: 'v1/employee/base#create'
     delete '/funcionarios/:id', to: 'v1/employee/base#destroy'
-    put '/funcionarios/:id',    to: 'v1/employee/base#update'
+    put '/funcionarios/:id',    to: 'v1/employee/base#update'    
+    
+    # ROUTES USERS
+    post '/users',              to: 'v1/user/base#read'
+    get '/users/:id',           to: 'v1/user/base#show'
+    post '/users/new',          to: 'v1/user/base#create'
+    delete '/users/:id',        to: 'v1/user/base#destroy'
+    put '/users/:id',           to: 'v1/user/base#update'
 
     # ROUTES BASIC
     get '/job-roles',           to: 'v1/basic_info/base#job_roles'
     get '/work-location',       to: 'v1/basic_info/base#work_location'
     get '/genders',             to: 'v1/basic_info/base#genders'
     get '/states',              to: 'v1/basic_info/base#states'
+    get '/roles',               to: 'v1/basic_info/base#roles'
 
     # ROUTES EXPORT
     get 'pdf/export_pdf',       to: 'v1/export#export_pdf'

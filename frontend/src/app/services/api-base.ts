@@ -253,6 +253,12 @@ export namespace ApiBase {
     workspace: any;
     contacts: EmployeContact[];
     document_upload: any;
+  }  
+  
+  export class ListViewModelUser<TItem> {
+    id: number;
+    email: string;
+    role: string;
   }
 
   export class ListViewModel<TItem> {

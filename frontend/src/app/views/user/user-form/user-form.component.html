@@ -1,0 +1,52 @@
+
+<div class="card card-outline card-danger">
+  <div class="card-header with-border">
+    <div class="page-header-title">
+      <h5 class="m-b-10">
+        <strong>
+          <i class="ti ti-plus"></i>
+          Atualizar usuário
+        </strong>
+      </h5>
+    </div>
+    <div class="search-container">
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="col-12">
+      <form [formGroup]="userForm" class="requires-validation row g-3" (ngSubmit)="onUpdate()">
+        <div class="col-md-2">
+          <label for="email" class="form-label">Email</label>
+          <input type="text" id="email" formControlName="email" class="form-control" readonly />
+        </div>
+        <div class="col-3">
+          <label for="gender" class="form-label">Role</label>
+          <select class="form-select" formControlName="role" required>
+            <option *ngFor="let role of userRoles" [value]="role.id">{{ role.name }}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <br>
+    <div class="col-12 text-end">
+      <button
+        type="button"
+        class="btn btn-light borderButton" 
+        (click)="cancelUser()">
+        Cancelar
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="onUpdate()"
+        [disabled]="!userForm.valid">
+        Atualizar Usuário
+      </button>
+    </div>
+  </div>
+</div>
+
+
