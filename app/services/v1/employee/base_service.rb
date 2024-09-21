@@ -84,8 +84,15 @@ module V1
           existing_contacts.values.each(&:destroy)
 
           if params[:document_upload].present?
+            debugger
             employee.employee_documents.create!(document: params[:document_upload])
+
+            # Disparar o worker para enviar notificações sobre o novo documento
+            EmployeeDocumentNotificationWorker.perform_async(employee.id, document.document_file_name)
           end
+
+          # Disparar o worker para enviar notificações sobre atualoização de employee
+          EmployeeNotificationWorker.perform_async(employee.id)
         end
 
         employee
