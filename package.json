@@ -2,6 +2,7 @@
   "name": "rh_challenge",
   "private": true,
   "dependencies": {
+    "@rails/actioncable": "^7.2.100",
     "bootstrap": "^5.3.3",
     "file-saver": "^2.0.5",
     "jquery": "^3.7.1"

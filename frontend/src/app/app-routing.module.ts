@@ -36,6 +36,10 @@ const routes: Routes = [
       {
         path: 'usuarios/edit/:id',
         loadComponent: () => import('./views/user/user-form/user-form.component').then(m => m.UserFormComponent)
+      },
+      {
+        path: 'notification',
+        loadComponent: () => import('./components/notifications/notifications.component').then(m => m.NotificationsComponent)
       }
     ]
   },

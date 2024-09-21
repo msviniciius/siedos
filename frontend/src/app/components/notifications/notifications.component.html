@@ -1,0 +1,22 @@
+<div class="card-body">
+  <div class="row">
+    <div class="col-12 table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th data-align='center'>Titulo</th>
+            <th data-align='center'>Mensagem</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let notification of notifications; let i = index">
+            <tr>
+              <td>{{ notification.title }}</td>
+              <td>{{ notification.message }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

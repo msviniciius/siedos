@@ -55,6 +55,14 @@ const NavigationItems = [
         classes: 'nav-item',
         url: '/usuarios',
         icon: 'ti ti-user',
+      },
+      {
+        id: 'notifications',
+        title: 'Notificações',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/notification',
+        icon: 'ti ti-user',
       }
     ]
   }

@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
 
+  has_many :notifications, dependent: :destroy
+
   enum role: { admin: 0, rh: 1, employee: 2 }
 
   def admin?

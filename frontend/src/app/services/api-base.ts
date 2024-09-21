@@ -255,6 +255,12 @@ export namespace ApiBase {
     document_upload: any;
   }  
   
+  export class ListViewModelNotification<TItem> {
+    id: number;
+    title: string;
+    message: string;
+  }  
+  
   export class ListViewModelUser<TItem> {
     id: number;
     email: string;

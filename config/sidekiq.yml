@@ -2,3 +2,8 @@
 :queues:
   - default
   - mailers
+
+:schedule:
+  anniversary_notification_worker:
+    cron: "0 0 * * *"
+    class: AnniversaryNotificationWorker

@@ -36,6 +36,8 @@ gem "jwt", "~> 2.7"
 gem 'pg'
 gem 'cancancan', '~> 3.0'
 
+gem 'sidekiq-scheduler'
+
 gem 'rack-cors', require: 'rack/cors'
 
 # frontend

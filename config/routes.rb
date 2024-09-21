@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   
   scope '/v1', defaults: { format: 'json' } do
     mount Sidekiq::Web => '/sidekiq'
+    mount ActionCable.server => '/cable'
 
     # ROUTES EMPLOYEES
     post '/funcionarios',       to: 'v1/employee/base#read'
@@ -37,5 +38,9 @@ Rails.application.routes.draw do
     post '/user/check-email',     to: 'v1/user_authentication/base#check_email'
 
     get '/auth/user/infos',      to: 'v1/auth/users#infos'
+
+    post '/notification/:id',   to: 'v1/notification/base#update'
+    get  '/notifications',       to: 'v1/notification/base#read'
+    post '/mark_as_read',        to: 'v1/notification/base#mark_as_read'
   end
 end
