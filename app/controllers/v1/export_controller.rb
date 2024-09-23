@@ -3,11 +3,10 @@ module V1
     # GET /pdf/export_pdf
     def export_pdf
       filters = load_filters(params)
-      
-      query = V1::Employee::EmployeeQuery.new(filters)
-      service = ::V1::Export::BaseService.instance.export_pdf(query.fetch)
-      
-      send_data service, filename: 'employees.pdf', type: 'application/pdf', disposition: 'inline'
+
+      ExportPdfJob.perform_async(filters)
+
+      render json: { message: 'Exportação iniciada.' }, status: :accepted
     rescue => e
       CustomLog.error(e)
       render json: { error: e.message }, status: :bad_request
@@ -16,11 +15,12 @@ module V1
     # GET /xls/export_xls
     def export_xls
       filters = load_filters(params)
-      
-      query = V1::Employee::EmployeeQuery.new(filters)
-      service = ::V1::Export::BaseService.instance.export_xls(query.fetch)
+
+      ExportXlsJob.perform_async(filters)
       
       send_data service, filename: 'employees.xlsx', type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', disposition: 'inline'
+
+      render json: { message: 'Exportação iniciada.' }, status: :accepted
     rescue => e
       CustomLog.error(e)
       render json: { error: e.message }, status: :bad_request
