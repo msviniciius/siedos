@@ -70,15 +70,6 @@ export class EmployeeListComponent implements OnInit {
     } else if (this.userRole === 'employee') {
       this.actions = [
         { label: 'Visualizar', icon: 'fa-solid fa-eye', action: (employee: any) => this.viewEmployee(employee) },
-        {
-          label: 'Editar', 
-          icon: 'fa-solid fa-pen-to-square', 
-          action: (employee: any) => {
-            if (employee.id === this.userId) {
-              this.editEmployee(employee);
-            }
-          }
-        }
       ];
     }
   }
