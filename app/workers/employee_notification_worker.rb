@@ -8,7 +8,8 @@ class EmployeeNotificationWorker
     Notification.create!(
       title: "Atualização no seu perfil!",
       message: "Seus dados pessoais foram atualizados.",
-      user_id: employee_id
+      user_id: employee_id,
+      notification_type: "ProfileUpdateNotification"
     )
 
     # Envia notificação para todos os administradores
@@ -17,7 +18,8 @@ class EmployeeNotificationWorker
       Notification.create!(
         title: "Alterações no perfil!",
         message: "Os dados pessoais de #{employee.name} foram atualizados.",
-        user_id: admin.id
+        user_id: admin.id,
+        notification_type: "ProfileUpdateNotification"
       )
     end
   end

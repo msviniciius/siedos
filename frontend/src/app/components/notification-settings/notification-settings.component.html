@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <h4 class="modal-title">Alterar preferências</h4>
+</div>
+<div class="modal-body" [formGroup]="notificationForm">
+  <div>
+    <input 
+      type="checkbox" 
+      id="profileUpdateNotifications" 
+      formControlName="receive_profile_update_notifications" 
+      class="form-check-input"
+    />
+    Receba notificações de atualização de perfil
+  </div>
+  <div>
+    <input 
+      type="checkbox" 
+      id="documentNotifications" 
+      formControlName="receive_document_notifications" 
+      class="form-check-input"
+    />
+    Receba notificações de documentos
+  </div>  
+  <div>
+    <input 
+      type="checkbox" 
+      id="annivesaryNotifications" 
+      formControlName="receive_annivesary_notifications" 
+      class="form-check-input"
+    />
+    Receba notificações do seu aniversário
+  </div>
+  <div>
+    <input 
+      type="checkbox" 
+      id="generalNotifications" 
+      formControlName="receive_general_notifications" 
+      class="form-check-input"
+    />
+    Receba notificações gerais
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="dismiss()">Cancelar</button>
+  <button type="button" class="btn btn-secondary" (click)="confirm()">Salvar</button>
+</div>

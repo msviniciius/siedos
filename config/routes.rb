@@ -21,6 +21,10 @@ Rails.application.routes.draw do
     delete '/users/:id',        to: 'v1/user/base#destroy'
     put '/users/:id',           to: 'v1/user/base#update'
 
+    # ROUTES PREFERENCES
+    post '/preferences',        to: 'v1/preference/base#read'    
+    put '/preferences/:id',     to: 'v1/preference/base#update'    
+    
     # ROUTES BASIC
     get '/job-roles',           to: 'v1/basic_info/base#job_roles'
     get '/work-location',       to: 'v1/basic_info/base#work_location'
@@ -39,8 +43,9 @@ Rails.application.routes.draw do
 
     get '/auth/user/infos',      to: 'v1/auth/users#infos'
 
+    # NOTIFICATIONS ROUTES
     post '/notification/:id',   to: 'v1/notification/base#update'
-    get  '/notifications',       to: 'v1/notification/base#read'
+    post  '/notifications',       to: 'v1/notification/base#read'
     post '/mark_as_read',        to: 'v1/notification/base#mark_as_read'
   end
 end

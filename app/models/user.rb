@@ -7,6 +7,8 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   has_many :notifications, dependent: :destroy
+  has_one :notification_preference, dependent: :destroy
+  after_create :build_default_notification_preference
 
   enum role: { admin: 0, rh: 1, employee: 2 }
 
@@ -20,5 +22,11 @@ class User < ApplicationRecord
 
   def employee?
     role == 'employee'
+  end
+
+  private
+
+  def build_default_notification_preference
+    create_notification_preference
   end
 end

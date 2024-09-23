@@ -1,10 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../services/notifications/notification.service';
+import { NotificationSettingsComponent } from '../../components/notification-settings/notification-settings.component';
 import { ApiBase } from '../../../../src/app/services/api-base';
 import { ApiAuthService } from '../../services/auth/api-auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BasicService, Basic } from '../../services/basic/basic.service';
 import { finalize } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 import { from } from 'rxjs';
 
 @Component({
@@ -25,6 +28,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   constructor(
     private notificationService: NotificationService,
     private apiAuthService: ApiAuthService,
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -76,5 +81,30 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         },
         // error: (e) => this.toastService.error(e),
       });
+  }
+
+  openPreferencesModal(): void {
+    const modalRef = this.modalService.open(NotificationSettingsComponent);
+
+    modalRef.result.then(
+      async (preferences) => {
+        if (preferences) {
+          try {
+            this.loading = true;
+            await this.notificationService.updatePreferences(this.userId, preferences).toPromise();
+
+            this.loadNotifications();
+            this.toastr.success('Preferências atualizadas com sucesso!', 'Preferências');
+          } catch (error) {
+            console.log(error);
+            this.toastr.error('Erro ao atualizar as preferências', 'Erro');
+          } finally {
+            this.loading = false;
+          }
+        }
+      },
+      (reason) => {
+      }
+    );
   }
 }

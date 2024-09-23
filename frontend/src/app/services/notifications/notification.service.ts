@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import * as ActionCable from '@rails/actioncable';
 import { map, Observable } from 'rxjs';
 
+import { NotificationPreferences } from '../../components/notification-settings/notification-settings.component';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,7 +26,7 @@ export class NotificationService {
       }
     }
 
-    return this.httpClient.get<BasicResponse>(`${this.apiUrl}/notifications`, { params: httpParams }).pipe(
+    return this.httpClient.post<BasicResponse>(`${this.apiUrl}/notifications`, { params }).pipe(
       map(response => response.items)
     );
   }
@@ -43,6 +45,22 @@ export class NotificationService {
 
   markNotificationAsRead(notificationId: number, read: boolean): Observable<void> {
     return this.httpClient.post<void>(`${this.apiUrl}/notification/${notificationId}`, { notification: { read: read }});
+  }  
+  
+  getOnePreferences(params: { id: number }): Observable<BasicResponsePreferences> {
+    return this.httpClient.post<BasicResponsePreferences>(`${this.apiUrl}/preferences`, params);
+  }
+  
+  updatePreferences(id: number, preferences: NotificationPreferences): Observable<void> {
+    return this.httpClient.put<void>(`${this.apiUrl}/preferences/${id}`, preferences);
+  }
+}
+
+export namespace NotificationService {
+  export interface Notification {
+    receive_profile_update_notifications: boolean;
+    receive_document_notifications: boolean;
+    receive_general_notifications: boolean;
   }
 }
 
@@ -55,4 +73,8 @@ export interface Basic {
 
 export interface BasicResponse {
   items: Basic[];
+}
+
+export interface BasicResponsePreferences {
+  items: NotificationPreferences[];
 }

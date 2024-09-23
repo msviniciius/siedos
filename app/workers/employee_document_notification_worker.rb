@@ -8,7 +8,8 @@ class EmployeeDocumentNotificationWorker
     Notification.create!(
       title: "Novo documento!",
       message: "O documento '#{document_name}' foi adicionado ao seu perfil.",
-      user_id: employee_id
+      user_id: employee_id,
+      notification_type: "DocumentNotification"
     )
 
     # Envia notificação para todos os administradores
@@ -17,7 +18,8 @@ class EmployeeDocumentNotificationWorker
       Notification.create!(
         title: "Novo documento!",
         message: "O documento '#{document_name}' foi adicionado ao perfil de #{employee.name}.",
-        user_id: admin.id
+        user_id: admin.id,
+        notification_type: "DocumentNotification"
       )
     end
   end

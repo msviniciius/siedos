@@ -8,7 +8,8 @@ class AnniversaryNotificationWorker
       Notification.create!(
         title: "Feliz Aniversário, #{employee.name}!",
         message: "Hoje é o seu aniversário! Parabéns!",
-        user_id: employee.id
+        user_id: employee.id,
+        notification_type: "AnniversaryNotification"
       )
     end
   end
