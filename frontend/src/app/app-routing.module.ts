@@ -39,7 +39,7 @@ const routes: Routes = [
       },
       {
         path: 'notification',
-        loadComponent: () => import('./components/notifications/notifications.component').then(m => m.NotificationsComponent)
+        loadComponent: () => import('./views/notifications/notifications.component').then(m => m.NotificationsComponent)
       }
     ]
   },

@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ title }}</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="notificationForm" (ngSubmit)="sendNotification()">
+    <div class="mb-3">
+      <label for="notificationTitle" class="form-label">Título</label>
+      <input type="text" id="notificationTitle" class="form-control" formControlName="title">
+    </div>
+    <div class="mb-3">
+      <label for="notificationMessage" class="form-label">Mensagem</label>
+      <textarea id="notificationMessage" class="form-control" formControlName="message"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="notificationForm.invalid">Enviar Notificação</button>
+  </form>
+</div>

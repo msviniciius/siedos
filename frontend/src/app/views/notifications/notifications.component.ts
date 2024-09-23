@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../services/notifications/notification.service';
 import { NotificationSettingsComponent } from '../../components/notification-settings/notification-settings.component';
-import { ApiBase } from '../../../../src/app/services/api-base';
+import { NotificationMessageComponent } from '../../components/notification-message/notification-message.component';
+import { ApiBase } from '../../services/api-base';
 import { ApiAuthService } from '../../services/auth/api-auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BasicService, Basic } from '../../services/basic/basic.service';
@@ -106,5 +107,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       (reason) => {
       }
     );
+  }
+
+  openNotificationModal() {
+    const modalRef = this.modalService.open(NotificationMessageComponent);
+    modalRef.componentInstance.title = 'Enviar Comunicado Global';
   }
 }

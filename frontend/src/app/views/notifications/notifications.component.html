@@ -18,10 +18,16 @@
         </tbody>
       </table>
 
+      
       <div class="text-end">
-        <button (click)="openPreferencesModal()" type="button" class="btn btn-secondary">
-          Ajustar preferências
-        </button>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-primary me-2" (click)="openNotificationModal()">
+            Enviar comunicado
+          </button>
+          <button (click)="openPreferencesModal()" type="button" class="btn btn-secondary">
+            Ajustar preferências
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -44,8 +44,9 @@ Rails.application.routes.draw do
     get '/auth/user/infos',      to: 'v1/auth/users#infos'
 
     # NOTIFICATIONS ROUTES
-    post '/notification/:id',   to: 'v1/notification/base#update'
-    post  '/notifications',       to: 'v1/notification/base#read'
-    post '/mark_as_read',        to: 'v1/notification/base#mark_as_read'
+    post '/notification/:id',       to: 'v1/notification/base#update'
+    post  '/notifications',         to: 'v1/notification/base#read'
+    post '/mark_as_read',           to: 'v1/notification/base#mark_as_read'
+    post '/notifications/global',   to: 'v1/notification/base#send_global'
   end
 end

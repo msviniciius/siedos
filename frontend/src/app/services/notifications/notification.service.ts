@@ -54,6 +54,10 @@ export class NotificationService {
   updatePreferences(id: number, preferences: NotificationPreferences): Observable<void> {
     return this.httpClient.put<void>(`${this.apiUrl}/preferences/${id}`, preferences);
   }
+
+  sendGlobalNotification(notification: { title: string, message: string }): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiUrl}/notifications/global`, notification);
+  }
 }
 
 export namespace NotificationService {

@@ -19,7 +19,7 @@ module V1
         CustomLog.error(e)
         render json: { error: e.message }, status: :bad_request
       end
-
+      
       def mark_as_read
         notification = Notification.find_by(id: params[:id])
         if notification && notification.update(read: true)
@@ -27,6 +27,16 @@ module V1
         else
           render json: { success: false, message: 'Notificação não encontrada ou não pôde ser atualizada.' }, status: :not_found
         end
+      end
+      
+      def send_global
+        response = ::V1::Notification::BaseService.instance.send_global(params)
+
+        render json: response, status: 200
+      rescue => e
+        debugger
+        CustomLog.error(e)
+        render json: { error: e.message }, status: :bad_request
       end
     end
   end

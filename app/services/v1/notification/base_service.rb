@@ -14,6 +14,11 @@ module V1
 
         notification
       end
+
+      def send_global(params)
+        GlobalNotificationWorker.perform_async(params[:title], params[:message])
+        :ok
+      end
     end
   end
 end
