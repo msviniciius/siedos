@@ -21,12 +21,14 @@ module V1
 
       # POST /employee
       def create
-        response = ::V1::Employee::BaseService.instance.create(params)
-        
-        render json: response, status: 200
-      rescue => e
-        CustomLog.error(e)
-        render json: { error: e.message }, status: :bad_request
+        employee_service = V1::Employee::BaseService.instance
+        employee = employee_service.create(create_params)
+
+        if employee.persisted?
+          render json: employee, status: :created
+        else
+          render json: { errors: employee.errors.full_messages }, status: :unprocessable_entity
+        end
       end
 
       # PATCH/PUT /employee/1
@@ -50,6 +52,22 @@ module V1
       end
 
       private
+
+      def create_params
+        params.require(:employee).permit(:name,
+          :name,
+          :registration,
+          :birthday,
+          :municipality,
+          :state,
+          :gender_id,
+          :marital_state_id,
+          :workspace_id,
+          :job_role_id,
+          contacts_attributes: [:phone, :cell_phone, :email],
+          documents_attributes: []
+        )
+      end
 
       def load_filters(params)
         filters = {}

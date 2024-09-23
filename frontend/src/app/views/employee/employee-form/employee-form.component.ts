@@ -183,8 +183,12 @@ export class EmployeeFormComponent implements OnInit {
     const formData = this.employeeForm.getRawValue();
     this.loading = true;
 
+    const payload = {
+      employee: formData,
+    };
+
     try {
-      await this.employeeService.saveEmployee(formData);
+      await this.employeeService.saveEmployee(payload);
 
       this.loading = false;
       this.toastr.success('Funcionário castrado com sucesso!', 'Funcionário');

@@ -5,7 +5,7 @@ module V1
 
       def create(params)
         ActiveRecord::Base.transaction do
-          employee = ::Employee.create!(
+          employee = ::Employee.new(
             name: params[:name],
             registration: params[:registration],
             birthday: params[:birthday],
@@ -15,29 +15,25 @@ module V1
             marital_state_id: params[:marital_state_id]
           )
 
-          employee_complement = ::EmployeeComplement.create!(
-            employee_id: employee.id, 
-            workspace_id: params[:workspace_id],
+          # Criar o employee_complement se não existir
+          employee_complement = employee.build_employee_complement(
+            workspace_id: params[:workspace_id], 
             job_role_id: params[:job_role_id]
           )
 
-          params[:contacts].each do |contact|
-            ::EmployeeContact.create!(
-              employee_id: employee.id,
-              phone: contact[:phone],
-              cell_phone: contact[:cell_phone],
-              email: contact[:email]
-            )
+          # Adicionar os contatos se houver
+          if params[:contacts].present?
+            params[:contacts].each do |contact|
+              employee.employee_contacts.build(contact) unless contact.empty?
+            end
           end
 
+          # Adicionar o documento se houver
           if params[:document_upload].present?
-            employee.employee_documents.create!(document: params[:document_upload])
+            employee.employee_documents.build(employee_id: params[:document_upload])
           end
 
-          unless employee_complement.persisted?
-            raise ActiveRecord::Rollback, 'Failed create EmployeeComplement'
-          end
-
+          employee.save!
           employee
         end
       end
@@ -84,7 +80,6 @@ module V1
           existing_contacts.values.each(&:destroy)
 
           if params[:document_upload].present?
-            debugger
             employee.employee_documents.create!(document: params[:document_upload])
 
             # Disparar o worker para enviar notificações sobre o novo documento
