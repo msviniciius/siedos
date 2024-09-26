@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { ApiAuthService } from '../../../../services/auth/api-auth.service';
+import { UserAuthService } from '../../../../services/auth/user_auth.service';
+
 
 export interface NavigationItem {
   id: string;
@@ -10,13 +13,11 @@ export interface NavigationItem {
   external?: boolean;
   target?: boolean;
   breadcrumbs?: boolean;
-  children?: Navigation[];
+  children?: NavigationItem[];
+  requiredRole?: string;
 }
 
-export interface Navigation extends NavigationItem {
-  children?: NavigationItem[];
-}
-const NavigationItems = [
+const NavigationItems: NavigationItem[] = [
   {
     id: 'dashboard',
     title: 'Dashboard',
@@ -36,7 +37,7 @@ const NavigationItems = [
   },
   {
     id: 'configuracoes',
-    title: 'Configuracões',
+    title: 'Configurações',
     type: 'group',
     icon: 'icon-navigation',
     children: [
@@ -55,6 +56,7 @@ const NavigationItems = [
         classes: 'nav-item',
         url: '/usuarios',
         icon: 'ti ti-user',
+        requiredRole: 'admin'
       },
       {
         id: 'notifications',
@@ -69,8 +71,57 @@ const NavigationItems = [
 ];
 
 @Injectable()
-export class NavigationItem {
+export class NavigationService {
+  loading: boolean = false;
+  userRole: string | null = null;
+  userInfo: UserAuthService.Content;
+
+  constructor(
+    private apiAuthService: ApiAuthService
+  ) {
+    this.getUser();
+   }
+
   get() {
-    return NavigationItems;
+    return this.filterNavigationItems(NavigationItems);
+  }
+  
+  filterNavigationItems(items: NavigationItem[]): NavigationItem[] {
+    const userRole = localStorage.getItem('user_role');
+
+    return items.map(item => {
+      // Se o item tem filhos, filtramos os filhos também
+      if (item.children) {
+        item.children = this.filterNavigationItems(item.children);
+      }
+
+      // Se o item requer um papel específico, verificamos se o usuário tem esse papel
+      if (item.requiredRole && item.requiredRole !== userRole) {
+        return null; // Retorna null se o papel não corresponde
+      }
+
+      return item; // Retorna o item se não há filtro ou o papel corresponde
+    }).filter(item => item !== null); // Remove os itens null
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('auth_token');
+  }
+
+  getUser(): void {
+    this.loading = true;
+    const token = this.getToken();
+  
+    this.apiAuthService.getUser(token)
+      .then(user => {
+        this.userRole = user.role;
+        localStorage.setItem('user_role', this.userRole);
+      })
+      .catch(error => {
+        console.error('Erro ao carregar informações do usuário:', error);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
   }
 }

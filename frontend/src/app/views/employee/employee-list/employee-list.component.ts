@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { saveAs } from 'file-saver';
@@ -23,7 +24,7 @@ import { finalize } from 'rxjs';
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule],
+  imports: [CommonModule, FormsModule, RouterModule, NgSelectModule, NgxPaginationModule],
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss']
 })
@@ -53,6 +54,9 @@ export class EmployeeListComponent implements OnInit {
   userRole: string | null = null;
   actions = [];
   userId: number | null = null;
+
+  currentPage: number = 1;
+  perPage: number = 100;
 
   configureActions(): void {
     if (this.userRole === 'admin') {
@@ -123,14 +127,25 @@ export class EmployeeListComponent implements OnInit {
   public async loadEmployees(): Promise<void> {
     try {
       this.loading = true;
-      this.filter.open_search = this.searchTerm ? this.searchTerm : "";
-      this.employees = await this.employeeService.getEmployees(this.filter);
+  
+      // Atualize o objeto filter com os valores dos filtros
+      this.filter.open_search = this.searchTerm ? this.searchTerm : '';
+      this.filter.gender_identity = this.selectedGenders;
+      this.filter.job_roles = this.selectedJobRoles;
+      this.filter.work_locations = this.selectedWorkLocations;
 
+      this.filter.page = this.currentPage; // Página atual
+      this.filter.per_page = this.perPage;  // Registros por página
+  
+      // Chama o serviço com os filtros
+      this.employees = await this.employeeService.getEmployees(this.filter);
+  
       this.loading = false;
     } catch (error) {
       console.log(error);
     }
   }
+  
 
   exportOptions(label: string) {
     switch(label) {

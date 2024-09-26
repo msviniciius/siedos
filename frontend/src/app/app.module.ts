@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ApiAuthService } from './services/auth/api-auth.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AuthGuard } from './guards/auth.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AdminComponent } from './theme/layout/admin/admin.component';
-import { NavigationItem } from './theme/layout/admin/navigation/navigation';
+import { NavigationService } from './theme/layout/admin/navigation/navigation';
 import { NavBarComponent } from './theme/layout/admin/nav-bar/nav-bar.component';
 import { NavRightComponent } from './theme/layout/admin/nav-bar/nav-right/nav-right.component';
 import { NavigationComponent } from './theme/layout/admin/navigation/navigation.component';
@@ -56,6 +57,7 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
     NgbModule,
     FontAwesomeModule,
     NgSelectModule,
+    NgxPaginationModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
       preventDuplicates: true
@@ -63,7 +65,7 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
   ],
   providers: [
     AuthGuard,
-    NavigationItem,
+    NavigationService,
     ApiAuthService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

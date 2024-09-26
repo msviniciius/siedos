@@ -9,6 +9,7 @@ class Employee < ApplicationRecord
 
   accepts_nested_attributes_for :employee_contacts, allow_destroy: true
   accepts_nested_attributes_for :employee_documents, allow_destroy: true
+  accepts_nested_attributes_for :employee_complement, allow_destroy: true
 
   validates :name, presence: true
   validates :registration, presence: true, uniqueness: true

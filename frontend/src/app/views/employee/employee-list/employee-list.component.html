@@ -89,7 +89,7 @@
               <ng-select 
                 [items]="workLocations"
                 bindLabel="name"
-                bindValue="value"
+                bindValue="id"
                 [multiple]="true"
                 [(ngModel)]="selectedWorkLocations"
                 (change)="onFilterChange($event, FilterTypes.WorkLocations)"
@@ -149,6 +149,7 @@
               </ng-container>
             </tbody>
           </table>
+          <pagination-controls (pageChange)="currentPage = $event" [autoHide]="false"></pagination-controls>
         </div>
       </div>
     </div>

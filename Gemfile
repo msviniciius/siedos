@@ -40,6 +40,8 @@ gem 'sidekiq-scheduler'
 
 gem 'rack-cors', require: 'rack/cors'
 
+gem 'ransack'
+
 # frontend
 gem 'bootstrap-sass'
 gem 'bootstrap-will_paginate'

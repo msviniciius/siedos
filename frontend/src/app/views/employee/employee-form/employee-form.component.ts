@@ -184,8 +184,29 @@ export class EmployeeFormComponent implements OnInit {
     this.loading = true;
 
     const payload = {
-      employee: formData,
-    };
+      employee: {
+        name: formData.name,
+        registration: formData.registration,
+        birthday: formData.birthday,
+        municipality: formData.municipality,
+        state: formData.state,
+        gender_id: formData.gender_id,
+        marital_state_id: formData.marital_state_id,
+        
+        employee_complement_attributes: {
+          job_role_id: formData.job_role_id,
+          workspace_id: formData.workspace_id
+        },
+        
+        employee_contacts_attributes: formData.contacts.map(contact => ({
+          phone: contact.phone,
+          cell_phone: contact.cell_phone,
+          email: contact.email
+        })),
+  
+        // employee_documents_attributes: formData.document_upload
+      }
+    }
 
     try {
       await this.employeeService.saveEmployee(payload);

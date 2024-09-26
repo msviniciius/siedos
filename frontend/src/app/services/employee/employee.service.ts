@@ -11,9 +11,43 @@ export class EmployeeService extends ApiBase {
     return super.get<ApiBase.ListViewModelEmployee<EmployeeService.Employee>>(`${employeeId}`, {})
   }
 
-  public getEmployees(params?: EmployeeService.Filter): Promise<ApiBase.ListViewModel<EmployeeService.Employee>> {
-    return super.post<ApiBase.ListViewModel<EmployeeService.Employee>>(``, params);
+  public getEmployees(filter?: EmployeeService.Filter): Promise<ApiBase.ListViewModel<EmployeeService.Employee>> {
+    const params = this.buildRansackParams(filter);
+    return super.post<ApiBase.ListViewModel<EmployeeService.Employee>>('', params);
   }
+  
+  private buildRansackParams(filter: EmployeeService.Filter): any {
+    const params: any = { q: {} };
+  
+    // Parâmetros de busca
+    if (filter.open_search) {
+      params.q['name_or_registration_cont'] = filter.open_search;
+    }
+  
+    if (filter.gender_identity && filter.gender_identity.length > 0) {
+      params.q['gender_id_in'] = filter.gender_identity;
+    }
+  
+    if (filter.job_roles && filter.job_roles.length > 0) {
+      params.q['job_role_id_in'] = filter.job_roles;
+    }
+  
+    if (filter.work_locations && filter.work_locations.length > 0) {
+      params.q['workspace_id_in'] = filter.work_locations;
+    }
+  
+    // Adicionando parâmetros de paginação
+    if (filter.page) {
+      params.page = filter.page; // Página atual
+    }
+  
+    if (filter.per_page) {
+      params.per_page = filter.per_page; // Registros por página
+    }
+  
+    return params; // Retorna o objeto formatado para o Ransack
+  }
+  
 
   public saveEmployee(params: any): Promise<ApiBase.ListViewModel<EmployeeService.Employee>> {
     return super.post<ApiBase.ListViewModel<EmployeeService.Employee>>(`/new`, params);
@@ -55,6 +89,8 @@ export namespace EmployeeService {
     gender_identity?: any[];
     job_roles?: any[];
     work_locations?: any[];
+    page: number;
+    per_page: number;
   }
 
   export interface FilterOption{

@@ -5,35 +5,7 @@ module V1
 
       def create(params)
         ActiveRecord::Base.transaction do
-          employee = ::Employee.new(
-            name: params[:name],
-            registration: params[:registration],
-            birthday: params[:birthday],
-            municipality: params[:municipality],
-            state: params[:state],
-            gender_id: params[:gender_id],
-            marital_state_id: params[:marital_state_id]
-          )
-
-          # Criar o employee_complement se não existir
-          employee_complement = employee.build_employee_complement(
-            workspace_id: params[:workspace_id], 
-            job_role_id: params[:job_role_id]
-          )
-
-          # Adicionar os contatos se houver
-          if params[:contacts].present?
-            params[:contacts].each do |contact|
-              employee.employee_contacts.build(contact) unless contact.empty?
-            end
-          end
-
-          # Adicionar o documento se houver
-          if params[:document_upload].present?
-            employee.employee_documents.build(employee_id: params[:document_upload])
-          end
-
-          employee.save!
+          employee = ::Employee.create(params)
           employee
         end
       end

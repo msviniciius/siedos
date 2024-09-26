@@ -2,8 +2,8 @@ module V1
   module Employee
     class EmployeeListPresenter < V1::BasePresenter
       def initialize(object)
-        @object = object[0]
-        @total = object[0].length
+        @object = object
+        @total = object.length
       end
 
       def as_json(*)

@@ -5,10 +5,10 @@ module V1
 
       # GET /employees
       def read
-        filters = load_filters(params)
-        query = V1::Employee::EmployeeQuery.new(filters)  # Use o nome absoluto do modelo
+        query = ::Employee.ransack(params[:q])
+        employees = query.result.paginate(page: params[:page], per_page: params[:per_page])
 
-        presenter = V1::Employee::EmployeeListPresenter.new(query.fetch)
+        presenter = V1::Employee::EmployeeListPresenter.new(employees)
         render json: presenter.as_json
       end
 
@@ -21,8 +21,7 @@ module V1
 
       # POST /employee
       def create
-        employee_service = V1::Employee::BaseService.instance
-        employee = employee_service.create(create_params)
+        employee = ::Employee.create(employee_params)
 
         if employee.persisted?
           render json: employee, status: :created
@@ -53,19 +52,12 @@ module V1
 
       private
 
-      def create_params
-        params.require(:employee).permit(:name,
-          :name,
-          :registration,
-          :birthday,
-          :municipality,
-          :state,
-          :gender_id,
-          :marital_state_id,
-          :workspace_id,
-          :job_role_id,
-          contacts_attributes: [:phone, :cell_phone, :email],
-          documents_attributes: []
+      def employee_params
+        params.require(:employee).permit(
+          :name, :registration, :birthday, :municipality, :state,
+          :gender_id, :marital_state_id,
+          employee_complement_attributes: [:job_role_id, :workspace_id],
+          employee_contacts_attributes: [:phone, :cell_phone, :email]
         )
       end
 
