@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PaginationInstance } from 'ngx-pagination';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { saveAs } from 'file-saver';
@@ -56,7 +57,7 @@ export class EmployeeListComponent implements OnInit {
   userId: number | null = null;
 
   currentPage: number = 1;
-  perPage: number = 100;
+  perPage: number = 10;
 
   configureActions(): void {
     if (this.userRole === 'admin') {
@@ -106,6 +107,12 @@ export class EmployeeListComponent implements OnInit {
     this.checkAuthentication();
     this.getUser();
   }
+
+  public paginationConfig: PaginationInstance = {
+    id: 'employee-pagination', // This should match the id you will use in the template
+    itemsPerPage: this.perPage,
+    currentPage: this.currentPage
+  };
 
   public initVariables(): void {
     this.gendersType = [

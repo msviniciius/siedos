@@ -126,7 +126,7 @@
               </tr>
             </thead>
             <tbody>
-              <ng-container *ngFor="let employee of employees?.items; let i = index">
+              <ng-container *ngFor="let employee of employees?.items | paginate: paginationConfig">
                 <tr>
                   <td>{{ employee.id }}</td>
                   <td>{{ employee.name }}</td>
@@ -149,7 +149,7 @@
               </ng-container>
             </tbody>
           </table>
-          <pagination-controls (pageChange)="currentPage = $event" [autoHide]="false"></pagination-controls>
+          <pagination-controls (pageChange)="currentPage = $event" id="employee-pagination"></pagination-controls>
         </div>
       </div>
     </div>
