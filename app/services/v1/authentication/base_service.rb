@@ -21,6 +21,7 @@ module V1
             email: params[:email],
             password: password,
             password_confirmation: password_confirmation
+            role: 2
           )
 
           if user.persisted?
