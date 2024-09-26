@@ -13,6 +13,7 @@ module V1
 
       def show 
         response = ::User.find_by(id: params[:id])
+        PaperTrail.request(whodunnit: params[:id], reason: "Usuário visualizado.")
         
         presenter = ::V1::User::FullPresenter.new(response)
         render presenter.to_h
@@ -21,6 +22,7 @@ module V1
       # POST /user
       def create
         response = ::V1::User::BaseService.instance.create(params)
+        PaperTrail.request(whodunnit: response.id, reason: "Novo usuário cadastrado.")
         
         render json: response, status: 200
       rescue => e
@@ -31,6 +33,7 @@ module V1
       # PATCH/PUT /user/1
       def update
         response = ::V1::User::BaseService.instance.update(params)
+        PaperTrail.request(whodunnit: params[:id], reason: "Usuário alterado.")
 
         render json: response, status: 200
       rescue => e
@@ -41,6 +44,7 @@ module V1
       # DELETE /user/1
       def destroy
         response = ::V1::User::BaseService.instance.delete(params)
+        PaperTrail.request(whodunnit: params[:id], reason: "Usuário deletado.")
 
         render json: response, status: 200
       rescue => e

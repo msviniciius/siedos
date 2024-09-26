@@ -14,7 +14,8 @@ module V1
 
       def show 
         response = ::Employee.find_by(id: params[:id])
-        
+        PaperTrail.request(whodunnit: params[:id], reason: "Funcionário visualizado.")
+
         presenter = ::V1::Employee::FullPresenter.new(response)
         render presenter.to_h
       end
@@ -22,6 +23,7 @@ module V1
       # POST /employee
       def create
         employee = ::Employee.create(employee_params)
+        PaperTrail.request(whodunnit: employee.id, reason: "Novo funcionário cadastrado.")
 
         if employee.persisted?
           render json: employee, status: :created
@@ -33,6 +35,7 @@ module V1
       # PATCH/PUT /employee/1
       def update
         response = ::V1::Employee::BaseService.instance.update(params)
+        PaperTrail.request(whodunnit: params[:id], reason: "Funcionário alterado.")
 
         render json: response, status: 200
       rescue => e
@@ -43,6 +46,7 @@ module V1
       # DELETE /employee/1
       def destroy
         response = ::V1::Employee::BaseService.instance.delete(params)
+        PaperTrail.request(whodunnit: params[:id], reason: "Funcionário deletado.")
 
         render json: response, status: 200
       rescue => e

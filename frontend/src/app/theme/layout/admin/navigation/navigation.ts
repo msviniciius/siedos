@@ -64,7 +64,16 @@ const NavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/notification',
-        icon: 'ti ti-user',
+        icon: 'ti ti-notification',
+      },
+      {
+        id: 'auditoria',
+        title: 'Auditoria',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/auditoria',
+        icon: 'ti ti-user-edit',
+        requiredRole: 'admin'
       }
     ]
   }

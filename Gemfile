@@ -41,6 +41,7 @@ gem 'sidekiq-scheduler'
 gem 'rack-cors', require: 'rack/cors'
 
 gem 'ransack'
+gem 'paper_trail', '~> 12.1'
 
 # frontend
 gem 'bootstrap-sass'

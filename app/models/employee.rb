@@ -1,4 +1,6 @@
 class Employee < ApplicationRecord
+  has_paper_trail
+  
   has_one :employee_complement, dependent: :destroy
   
   belongs_to :gender

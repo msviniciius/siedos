@@ -40,6 +40,10 @@ const routes: Routes = [
       {
         path: 'notification',
         loadComponent: () => import('./views/notifications/notifications.component').then(m => m.NotificationsComponent)
+      },
+      {
+        path: 'auditoria',
+        loadComponent: () => import('./views/auditoria/auditoria-list.component').then(m => m.AuditoriaListComponent)
       }
     ]
   },

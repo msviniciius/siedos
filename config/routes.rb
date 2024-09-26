@@ -32,6 +32,8 @@ Rails.application.routes.draw do
     get '/states',              to: 'v1/basic_info/base#states'
     get '/roles',               to: 'v1/basic_info/base#roles'
 
+    get '/auditorias',          to: 'v1/auditoria/base#auditorias'
+
     # ROUTES EXPORT
     get 'pdf/export_pdf',       to: 'v1/export#export_pdf'
     get 'xls/export_xls',       to: 'v1/export#export_xls'

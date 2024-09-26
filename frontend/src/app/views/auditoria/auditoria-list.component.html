@@ -1,0 +1,51 @@
+
+<div class="card card-outline card-danger">
+    <div class="card-header with-border">
+      <div class="page-header-title">
+        <h5 class="m-b-10">
+          <strong>
+            <i class="fa fa-solid fa-bars"></i>
+            Listagem
+          </strong>
+        </h5>
+        <div class="text-muted text-xs">
+          <h6 class="m-b-10 listagem">
+            <!-- Exibindo total de {{ employees?.count }} funcionários. -->
+          </h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+    
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th data-align='center'>#</th>
+                <th data-align='center'>Item</th>
+                <th data-align='center'>Evento</th>
+                <th data-align='center'>Objeto</th>
+                <th data-align='center'>Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let auditoria of auditorias">
+                <tr>
+                  <td>{{ auditoria.id }}</td>
+                  <td>{{ auditoria.item }}</td>
+                  <td>{{ auditoria.event }}</td>
+                  <td>{{ auditoria.object }}</td>
+                  <td>{{ auditoria.date | date:'dd/MM/yyyy' }}</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
